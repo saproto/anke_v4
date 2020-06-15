@@ -17,33 +17,29 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => login());
+    WidgetsBinding.instance.addPostFrameCallback((_) => checkCredentials());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('S.A. Proto'),
-        ),
-        drawer: DefaultDrawer(),
         body: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'loading page',
-                  style: TextStyle(fontSize: 35),
-                )
-              ],
-//            children: <Widget>[
-//              new Image.asset("assets/img/protologo.png"),
-//            ],
+//              children: <Widget>[
+//                Text(
+//                  'loading page',
+//                  style: TextStyle(fontSize: 35),
+//                )
+//              ],
+            children: <Widget>[
+              new Image.asset("assets/img/protologo.png"),
+            ],
           ),
         ));
   }
 
-  void login() async {
+  void checkCredentials() async {
 
     bool hasCredentials = await checkForCredentials();
 

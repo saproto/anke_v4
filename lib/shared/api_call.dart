@@ -12,18 +12,17 @@ Future <bool> checkForCredentials() async{
 }
 
 Future<dynamic> requestApiCallResult(String urlExtension, {bool noAuthPresentOk = false}) async {
-
-
-
-  http.Response resp = await _getHelper().get(oauthCredentials['baseurl'] + urlExtension);
-  print(resp);
+  Map<String, String> headers = {
+    'Accept': 'application/json'
+  };
+  http.Response resp = await _getHelper().get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
+//  print(resp);
   dynamic info = jsonDecode(resp.body);
   return info;
 }
 
 OAuth2Helper _getHelper(){
   ProtoOAuth2Client protoApi = ProtoOAuth2Client();
-
   return OAuth2Helper(protoApi,
       grantType: OAuth2Helper.AUTHORIZATION_CODE,
       clientId: oauthCredentials['id'],

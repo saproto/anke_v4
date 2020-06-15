@@ -7,6 +7,8 @@ List<UserInfoAttribute> sharedPrefAttributes = [
   new UserInfoAttribute(name: 'user_name', type: String),
   new UserInfoAttribute(name: 'email', type: String),
   new UserInfoAttribute(name: 'photo_url', type: String),
+  new UserInfoAttribute(name: 'id', type: int),
+
 ];
 
 class UserInfoAttribute {
@@ -41,6 +43,8 @@ class UserInfo {
        prefs.setBool(attribute.name, userInfo[attribute.name]);
       } else if(attribute.type == String){
         prefs.setString(attribute.name, userInfo[attribute.name]);
+      } else if(attribute.type == int){
+        prefs.setInt(attribute.name, userInfo[attribute.name]);
       }
     }
   }
@@ -55,6 +59,7 @@ class UserInfo {
     userInfo['display_name'] = json['calling_name'];
     userInfo['email'] = json['email'];
     userInfo['photo_url']= json['photo_preview'];
+    userInfo['id'] = json['id'];
     setAttributesFromSharedPrefs();
   }
 
@@ -65,6 +70,8 @@ class UserInfo {
         prefs.setBool(attribute.name, false);
       } else if(attribute.type == String){
         prefs.setString(attribute.name, null);
+      } else if(attribute.type == int){
+        prefs.setInt(attribute.name, null);
       }
 
     }
@@ -78,7 +85,7 @@ class UserInfo {
     for(UserInfoAttribute attribute in sharedPrefAttributes){
       if(attribute.type == bool){
         userInfo[attribute.name] = false;
-      } else if(attribute.type == String){
+      } else if(attribute.type == String || attribute.type == int){
         userInfo[attribute.name] = null;
       }
     }

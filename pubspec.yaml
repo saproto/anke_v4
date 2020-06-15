@@ -14,7 +14,7 @@ description: A new Flutter application by Marloes and Jonathan
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -24,6 +24,10 @@ dependencies:
   oauth2_client: ^1.2.0
   build_runner:
   shared_preferences:
+  table_calendar: ^2.2.1
+  markdown: ^2.1.5
+  flutter_markdown: ^0.3.4
+  url_launcher: ^5.4.10
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,8 +50,20 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - assets/img/protologo.png
+    - assets/img/clock.png
+    - assets/img/location.png
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+
+
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

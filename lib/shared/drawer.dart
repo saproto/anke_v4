@@ -66,10 +66,9 @@ class DefaultDrawer extends StatelessWidget {
         .getUserAttribute('is_logged_in');
     if (isLoggedIn != null && isLoggedIn == true) {
       return new CircleAvatar(
-          backgroundImage:NetworkImage(UserInfoInheritedWidget.of(context)
+          backgroundImage: NetworkImage(UserInfoInheritedWidget.of(context)
               .userInfo
-              .getUserAttribute('photo_url'))
-          );
+              .getUserAttribute('photo_url')));
     } else {
       return new CircleAvatar();
     }

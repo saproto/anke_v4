@@ -8,11 +8,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new UserInfoInheritedWidget(
-        userInfo: new UserInfo(),
-        child: new MaterialApp(
-            initialRoute: '/',
-            onGenerateRoute: RouteGenerator.generateRoute,
-          ),
+      userInfo: new UserInfo(),
+      child: new MaterialApp(
+        theme: ThemeData(
+            primaryColor: Color(0xff83b71a),
+            accentColor: Color(0xff343a40),
+            backgroundColor: Color(0xfff1f1f1),
+            textTheme: TextTheme(
+                headline1: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'poppins',
+                    color: const Color(0xff343a40)),
+                bodyText2: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'poppins',
+                    color: const Color(0xff6c757d)))),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
+      ),
     );
   }
 }

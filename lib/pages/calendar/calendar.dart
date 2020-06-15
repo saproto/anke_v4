@@ -2,7 +2,12 @@ import 'package:ankev928/models/user_info.dart';
 import 'package:ankev928/models/activity.dart';
 
 import 'package:ankev928/shared/drawer.dart';
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/textstyle.dart';
+
+import 'calendar_month_view.dart';
+import 'calendar_list_view.dart';
+import 'calendar_my_activities_view.dart';
+import 'package:ankev928/pages/calendar/get_activities.dart';
 
 import 'package:flutter/material.dart';
 
@@ -12,56 +17,58 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  int _currentIndex = 1;
+  List<Widget> _children = [];
+  Future<List<Activity>> _futureActivity;
+
+
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => decodeActvities());
+    //WidgetsBinding.instance.addPostFrameCallback((_) => decodeActvities());
+    setState(() {});
+    _futureActivity = getActivities();
+    _children = [
+      CalendarListViewPage(_futureActivity),
+      CalendarMonthViewPage(_futureActivity),
+      CalendarMyActivitiesViewPage(_futureActivity)
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('S.A. Proto Events'),
+        title: Text('S.A. Proto Events', style: Style.headerPageTextStyle,),
       ),
       drawer: DefaultDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              'These are some events!' +
-                  (UserInfoInheritedWidget.of(context)
-                          .userInfo
-                          .getUserAttribute('display_name') ??
-                      'go to login' + '!'),
-              style: TextStyle(fontSize: 50),
-            ),
-            RaisedButton(onPressed: () {
-              decodeActvities();
-            })
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: onTabTapped,
+        //onTap: changeTab,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            title: Text('list'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            title: Text('calendar'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            title: Text('my activities'),
+          )
+        ],
       ),
+      body: _children[_currentIndex],
     );
   }
 
-  void getActivities() async {
-
-  }
-
-  Future<List<Activity>> decodeActvities() async{
-    List<dynamic> calenderInfo =
-    await requestApiCallResult('events/upcoming/for_user');
-    List<Activity> activities = [];
-    for(var i in calenderInfo){
-      DateTime startDate = DateTime.fromMillisecondsSinceEpoch(i["start"]* 1000);
-      DateTime endDate = DateTime.fromMillisecondsSinceEpoch(i["end"]* 1000);
-      Activity activity = Activity(i["id"],i["title"], i["description"], startDate, endDate, i["location"]);
-      activities.add(activity);
-      print(activity.title);
-    }
-
-    return  activities;
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
