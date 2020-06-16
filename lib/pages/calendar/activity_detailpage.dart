@@ -1,13 +1,10 @@
-//import 'dart:html';
-
-import 'package:ankev928/models/user_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'dart:convert';
 
-//import 'package:markdown/markdown.dart' as markdown;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
@@ -95,20 +92,15 @@ class _DetailPageState extends State<ActivityDetailPage> {
       );
     }
 
-    RaisedButton _signUpBackUpListButton(Activity activity) {
-      if (activity.canSignUpBackUp && !activity.canSignUp) {
-        return new RaisedButton(
-          child: const Text("Signup closed! Put me on the back-up list."),
-          onPressed: (() {}),
-        );
-      }
-      return null;
-    }
-
     Text _userSignedUpTextField(Activity activity) {
       if (activity.userHasSignedUp) {
         return new Text(
           "You are signed up",
+          style: Style.commonTextStyleGreyColor,
+        );
+      } else if (activity.userHasSignedUpBackUp) {
+        return new Text(
+          "You are placed on the back-up list",
           style: Style.commonTextStyleGreyColor,
         );
       } else {
@@ -129,16 +121,23 @@ class _DetailPageState extends State<ActivityDetailPage> {
       return null;
     }
 
-    Future<void> _signUp(Activity activity) async {
+    Future<void> _signUp(Activity activity, bool signup) async {
       try {
         var signUpRequest = await requestApiCallResult(
             'events/signup/' + activity.id.toString());
         var decodedSignUpRequest = jsonDecode(signUpRequest["message"]);
         if (decodedSignUpRequest.containsKey("participation_id")) {
-          setState(() {
-            activity.userHasSignedUp = true;
-            activity.userSingUpId = decodedSignUpRequest["participation_id"];
-          });
+          if (signup) {
+            setState(() {
+              activity.userHasSignedUp = true;
+              activity.userSingUpId = decodedSignUpRequest["participation_id"];
+            });
+          } else {
+            setState(() {
+              activity.userHasSignedUpBackUp = true;
+              activity.userSingUpId = decodedSignUpRequest["participation_id"];
+            });
+          }
         }
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(decodedSignUpRequest["message"]),
@@ -159,6 +158,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
         if (decodedSignOutRequest['success']) {
           setState(() {
             activity.userHasSignedUp = false;
+            activity.userHasSignedUpBackUp = false;
           });
         }
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -172,12 +172,26 @@ class _DetailPageState extends State<ActivityDetailPage> {
       }
     }
 
+    RaisedButton _signUpBackUpListButton(Activity activity) {
+      if (activity.canSignUpBackUp &&
+          !activity.userHasSignedUpBackUp &&
+          !activity.canSignUp) {
+        return new RaisedButton(
+          child: const Text("Signup closed! Put me on the back-up list."),
+          onPressed: (() {
+            _signUp(activity, false);
+          }),
+        );
+      }
+      return null;
+    }
+
     RaisedButton _signUpButton(Activity activity) {
       if (activity.canSignUp && !activity.userHasSignedUp) {
         return new RaisedButton(
           child: const Text("Sign me up!"),
           onPressed: (() {
-            _signUp(activity);
+            _signUp(activity, true);
           }),
         );
       }
@@ -192,8 +206,39 @@ class _DetailPageState extends State<ActivityDetailPage> {
             _signOut(activity);
           }),
         );
+      } else if (activity.userHasSignedUpBackUp) {
+        return new RaisedButton(
+          child: const Text("Take me off the back-up list"),
+          onPressed: (() {
+            _signOut(activity);
+          }),
+        );
       }
       return null;
+    }
+
+    Text _getAmountOfAvailablePlaces(Activity activity) {
+      if (activity.availablePlaces == -1) {
+        return new Text("There are unlimited places available");
+      } else if (activity.availablePlaces > 0 && activity.canSignUp) {
+        String availablePlaces = activity.availablePlaces.toString();
+        String totalPlaces = activity.totalPlaces.toString();
+        return new Text(
+            "There are $availablePlaces out of $totalPlaces places available");
+      } else if (activity.isFull) {
+        return null;
+      }
+      return null;
+    }
+
+    Text _signUpInformation(Activity activity) {
+      var formatDate = new DateFormat('EEE, d MMM  HH:mm');
+      String startSignup = formatDate.format(activity.startSignup);
+      String endSignup = formatDate.format(activity.endSignup);
+      String endSignOut = formatDate.format(activity.endSignout);
+      return new Text(
+          "Sign up opens at: $startSignup \nand closes at: $endSignup \n"
+          "It is possible to sign out till: $endSignOut");
     }
 
     Column _hasSignUp(Activity activity) {
@@ -208,28 +253,69 @@ class _DetailPageState extends State<ActivityDetailPage> {
               ),
               new Separator(),
               _userSignedUpTextField(activity),
+              new Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
               new Text(
                 "Activity Cost: €" + activity.price.toString(),
                 style: Style.commonTextStyleGreyColor,
               ),
               _hasNoShowFeeTextField(activity),
+              _getAmountOfAvailablePlaces(activity),
+              new Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+              _signUpInformation(activity),
               _signUpButton(activity),
               _signUpBackUpListButton(activity),
-              _signOutButton(activity)
+              _signOutButton(activity),
             ].where(notNull).toList());
       }
       return null;
     }
-    _launchURL(url) async{
+
+    _launchURL(url) async {
       if (await urlLauncher.canLaunch(url)) {
         await urlLauncher.launch(url);
       } else {
-         _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(
-              "Something went wrong. Could not launch $url."),
-        )
-       );
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text("Something went wrong. Could not launch $url."),
+        ));
       }
+    }
+
+    Row _getRow(var participants) {
+      return new Row(children: <Widget>[]);
+    }
+
+    List<Row> _getParticipantsList(var participants) {
+      List<Row> participantsList = [];
+      for (int par = 0; par < participants.length; par++) {
+        participantsList.add(new Row(
+          children: <Widget>[
+            new Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 40)),
+            CircleAvatar(
+                backgroundColor: Theme.of(context).accentColor,
+                backgroundImage: NetworkImage(participants[par]["photo"])),
+            new Padding(padding: EdgeInsets.fromLTRB(0, 5, 10, 5)),
+            Text(participants[par]["name"]),
+          ],
+        ));
+      }
+      return participantsList;
+    }
+
+    Column _getParticipants(List<dynamic> participants, String title) {
+      if (participants != null) {
+        return new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Padding(padding: EdgeInsets.all(10)),
+              new Text(
+                title.toUpperCase(),
+                style: Style.headerTextStyle,
+              ),
+              new Separator(),
+              ..._getParticipantsList(participants),
+            ]);
+      }
+      return null;
     }
 
     Widget _getContent() {
@@ -258,12 +344,12 @@ class _DetailPageState extends State<ActivityDetailPage> {
                           MarkdownBody(
                             data: _activity.description,
                             onTapLink: (url) {
-                              print("in ontap");
                               _launchURL(url);
-                              print(url);
                             },
                           ),
                           _hasSignUp(_activity),
+                          _getParticipants(_activity.participants, "participants"),
+                          _getParticipants(_activity.participantsBackUpList, "The back-up list")
                         ].where(notNull).toList(),
                       ),
                     ),
@@ -283,8 +369,6 @@ class _DetailPageState extends State<ActivityDetailPage> {
           color: Theme.of(context).backgroundColor,
           constraints: new BoxConstraints.expand(),
           child: new Stack(children: <Widget>[
-//        _getBackground(),
-            //_getGradient(),
             _getContent(),
           ]),
         ));
