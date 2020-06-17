@@ -8,6 +8,7 @@ List<UserInfoAttribute> sharedPrefAttributes = [
   new UserInfoAttribute(name: 'email', type: String),
   new UserInfoAttribute(name: 'photo_url', type: String),
   new UserInfoAttribute(name: 'id', type: int),
+  new UserInfoAttribute(name: 'welcome_message', type: String)
 
 ];
 
@@ -60,6 +61,7 @@ class UserInfo {
     userInfo['email'] = json['email'];
     userInfo['photo_url']= json['photo_preview'];
     userInfo['id'] = json['id'];
+    userInfo['welcome_message'] = json['welcome_message'];
     setAttributesFromSharedPrefs();
   }
 

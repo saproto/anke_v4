@@ -1,5 +1,6 @@
 import 'package:ankev928/pages/calendar/calendar.dart';
 import 'package:ankev928/pages/logout.dart';
+import 'package:ankev928/pages/omnomcom/omnomcom_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/pages/homepage.dart';
 import 'package:ankev928/pages/login.dart';
@@ -23,6 +24,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LogoutHandler());
       case '/news':
         return MaterialPageRoute(builder: (_) => NewsPage());
+      case '/omnomcom':
+        return MaterialPageRoute(builder: (_) => OmnomcomPage());
       default:
         return _errorRoute("unkonw route");
     }

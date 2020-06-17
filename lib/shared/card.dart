@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ankev928/shared/separator.dart';
+import 'package:ankev928/shared/textstyle.dart';
+
 
 Container cardLayout(bool horizontal, Container content, double height) {
   return new Container(
@@ -21,4 +24,21 @@ Container cardLayout(bool horizontal, Container content, double height) {
       ],
     ),
   );
+}
+
+Widget getHeader(String header) {
+  return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Separator(),
+        new Padding(
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+          child: new Text(
+            header,
+            style: Style.headerTextStyle,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Separator(),
+      ]);
 }

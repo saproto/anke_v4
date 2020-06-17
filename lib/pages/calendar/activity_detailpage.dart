@@ -183,12 +183,17 @@ class _DetailPageState extends State<ActivityDetailPage> {
 
     Text _signUpInformation(Activity activity) {
       var formatDate = new DateFormat('EEE, d MMM  HH:mm');
-      String startSignup = formatDate.format(activity.startSignup);
-      String endSignup = formatDate.format(activity.endSignup);
-      String endSignOut = formatDate.format(activity.endSignout);
-      return new Text(
-          "Sign up opens at: $startSignup \nand closes at: $endSignup \n"
-          "It is possible to sign out till: $endSignOut");
+      if(activity.startSignup == null || activity.endSignup == null || activity.endSignout ==null ){
+        return null;
+      } else{
+        String startSignup = formatDate.format(activity.startSignup);
+        String endSignup = formatDate.format(activity.endSignup);
+        String endSignOut = formatDate.format(activity.endSignout);
+        return new Text(
+            "Sign up opens at: $startSignup \nand closes at: $endSignup \n"
+                "It is possible to sign out till: $endSignOut");
+      }
+
     }
 
     Column _hasSignUp(Activity activity) {
@@ -241,7 +246,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
     }
 
     Column _getParticipants(List<dynamic> participants, String title) {
-      if (participants.length != 0) {
+      if (participants != null && participants.length != 0) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

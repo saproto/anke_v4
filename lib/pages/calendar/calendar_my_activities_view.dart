@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ankev928/pages/calendar/get_activities.dart';
 import 'package:ankev928/shared/functions.dart';
-import '../../shared/separator.dart';
+import '../../shared/card.dart';
 import 'package:ankev928/shared/textstyle.dart';
 import 'package:ankev928/models/activity.dart';
+
 
 class CalendarMyActivitiesViewPage extends StatefulWidget{
    final Future<List<Activity>> _futureActivity;
@@ -71,22 +72,7 @@ class _CalendarMyActivitiesViewPageState extends State<CalendarMyActivitiesViewP
   }
 }
 
-Widget getHeader(String header) {
-  return new Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Separator(),
-        new Padding(
-          padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
-          child: new Text(
-            header,
-            style: Style.headerTextStyle,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Separator(),
-      ]);
-}
+
 
 int getLengthOfData(AsyncSnapshot snapshot) {
   if (snapshot.data != null) {

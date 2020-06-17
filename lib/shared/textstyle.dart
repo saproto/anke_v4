@@ -9,6 +9,11 @@ class Style {
     fontWeight: FontWeight.w600,
   );
 
+  static final headerHomePageTextStyle = headerTextStyle.copyWith(
+    color: Colors.white,
+    fontSize: 20.0
+  );
+
   static final headerPageTextStyle = baseTextStyle.copyWith(
       color: Colors.black,
       fontSize: 24.0,

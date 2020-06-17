@@ -50,17 +50,17 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
     return newMap;
   }
 
-  Future<void> _refreshActivities() async {
-      setState(() {
-        _futureActivity = getActivities();
-      });
-    }
+//  Future<void> _refreshActivities() async {
+//      setState(() {
+//        _futureActivity = getActivities();
+//      });
+//    }
 
   @override
   Widget build (BuildContext context){
     return Scaffold(
       body: SingleChildScrollView(
-      child: new RefreshIndicator(
+      //child: new RefreshIndicator(
         child: FutureBuilder(
           future: _futureActivity,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -105,8 +105,6 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
             );
           },
         ),
-        onRefresh: _refreshActivities,
-      )
       ),
     );
   }

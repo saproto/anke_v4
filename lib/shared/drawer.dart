@@ -1,5 +1,6 @@
 import 'package:ankev928/models/user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DefaultDrawer extends StatelessWidget {
   @override
@@ -34,10 +35,17 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.format_align_justify),
+            leading: FaIcon(FontAwesomeIcons.newspaper),
             title: Text('News'),
             onTap: () {
               _navigateTo('/news', context);
+            },
+          ),
+          ListTile(
+            leading: FaIcon(FontAwesomeIcons.cookieBite),
+            title: Text('Omnomcom'),
+            onTap: () {
+              _navigateTo('/omnomcom', context);
             },
           ),
           ListTile(

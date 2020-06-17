@@ -8,12 +8,21 @@ Future<List<Activity>> getActivities() async {
       await requestApiCallResult('events/upcoming/for_user');
   List<Activity> activities = [];
   for (var i in calenderInfo) {
+    DateTime startSignup;
+    DateTime endSignup;
+    DateTime endSignout;
     DateTime startDate = DateTime.fromMillisecondsSinceEpoch(i["start"] * 1000);
     DateTime endDate = DateTime.fromMillisecondsSinceEpoch(i["end"] * 1000);
-    DateTime startSignup = DateTime.fromMillisecondsSinceEpoch(i["registration_start"] * 1000);
-    DateTime endSignup = DateTime.fromMillisecondsSinceEpoch(i["registration_end"] * 1000);
-    DateTime endSignout = DateTime.fromMillisecondsSinceEpoch(i["deregistration_end"] * 1000);
+    if( i["registration_start"]!= null){
+      startSignup = DateTime.fromMillisecondsSinceEpoch(i["registration_start"] * 1000);
+    }
+    if(i["registration_end"] != null){
+      endSignup = DateTime.fromMillisecondsSinceEpoch(i["registration_end"] * 1000);
+    }
 
+    if(i["deregistration_end"] !=null ){
+      endSignout = DateTime.fromMillisecondsSinceEpoch(i["deregistration_end"] * 1000);
+    }
 
     Activity activity = Activity(
       id: i["id"],
