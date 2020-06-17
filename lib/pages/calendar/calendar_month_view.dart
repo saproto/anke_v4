@@ -6,7 +6,6 @@ import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/pages/calendar/get_activities.dart';
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
 
-import 'package:ankev928/shared/textstyle.dart';
 
 
 
@@ -50,10 +49,18 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
     });
     return newMap;
   }
+
+  Future<void> _refreshActivities() async {
+      setState(() {
+        _futureActivity = getActivities();
+      });
+    }
+
   @override
   Widget build (BuildContext context){
     return Scaffold(
       body: SingleChildScrollView(
+      child: new RefreshIndicator(
         child: FutureBuilder(
           future: _futureActivity,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -98,6 +105,8 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
             );
           },
         ),
+        onRefresh: _refreshActivities,
+      )
       ),
     );
   }

@@ -21,12 +21,7 @@ class _CalendarPageState extends State<CalendarPage> {
   List<Widget> _children = [];
   Future<List<Activity>> _futureActivity;
 
-
-
-  @override
-  void initState() {
-    super.initState();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => decodeActvities());
+  _setActivities(){
     setState(() {});
     _futureActivity = getActivities();
     _children = [
@@ -34,6 +29,14 @@ class _CalendarPageState extends State<CalendarPage> {
       CalendarMonthViewPage(_futureActivity),
       CalendarMyActivitiesViewPage(_futureActivity)
     ];
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    //WidgetsBinding.instance.addPostFrameCallback((_) => decodeActvities());
+    _setActivities();
   }
 
   @override

@@ -6,13 +6,16 @@ import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'dart:convert';
 
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
 import 'package:ankev928/shared/textstyle.dart';
 import 'package:ankev928/shared/functions.dart';
-import 'package:ankev928/shared/api_call.dart';
+import '../../shared/api_call.dart';
 
-import 'separator.dart';
+
+import '../../shared/separator.dart';
+import '../../shared/shared_detailpage.dart';
+import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+
 
 class ActivityDetailPage extends StatefulWidget {
   final Activity _activity;
@@ -34,63 +37,10 @@ class _DetailPageState extends State<ActivityDetailPage> {
     _activity = widget._activity;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    Container _getBackground() {
-      if (_activity.imgUrl != null) {
-        return new Container(
-          child: new Image.network(
-            _activity.imgUrl,
-            fit: BoxFit.cover,
-            height: 300.0,
-          ),
-          constraints: new BoxConstraints.expand(height: 300.0),
-        );
-      } else {
-        return new Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-          ),
-          height: 300.0,
-        );
-      }
-    }
-
-    Container _getGradient() {
-      return new Container(
-        margin: new EdgeInsets.only(top: 190.0),
-        height: 110.0,
-        decoration: BoxDecoration(
-          gradient: new LinearGradient(
-              colors: <Color>[
-                new Color(0x00ffffff),
-                Theme.of(context).backgroundColor,
-              ],
-              stops: [
-                0.0,
-                0.9
-              ],
-              begin: const FractionalOffset(0.0, 0.0),
-              end: const FractionalOffset(0.0, 1.0)),
-        ),
-      );
-    }
-
-    Column _getToolbar(BuildContext context) {
-      return new Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          new Container(
-            margin:
-                new EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: new Align(
-              alignment: Alignment.topLeft,
-              child: new BackButton(color: Colors.black),
-            ),
-          )
-        ],
-      );
-    }
 
     Text _userSignedUpTextField(Activity activity) {
       if (activity.userHasSignedUp) {
@@ -270,19 +220,8 @@ class _DetailPageState extends State<ActivityDetailPage> {
       return null;
     }
 
-    _launchURL(url) async {
-      if (await urlLauncher.canLaunch(url)) {
-        await urlLauncher.launch(url);
-      } else {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text("Something went wrong. Could not launch $url."),
-        ));
-      }
-    }
 
-    Row _getRow(var participants) {
-      return new Row(children: <Widget>[]);
-    }
+
 
     List<Row> _getParticipantsList(var participants) {
       List<Row> participantsList = [];
@@ -302,7 +241,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
     }
 
     Column _getParticipants(List<dynamic> participants, String title) {
-      if (participants != null) {
+      if (participants.length != 0) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -318,6 +257,16 @@ class _DetailPageState extends State<ActivityDetailPage> {
       return null;
     }
 
+    _launchURL(url) async {
+      if (await urlLauncher.canLaunch(url)) {
+        await urlLauncher.launch(url);
+      } else {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text("Something went wrong. Could not launch $url."),
+        ));
+      }
+    }
+
     Widget _getContent() {
       final _overwiewTitle = "Description".toUpperCase();
       return new ListView(
@@ -326,8 +275,8 @@ class _DetailPageState extends State<ActivityDetailPage> {
           new Container(
             child: new Stack(
               children: <Widget>[
-                _getBackground(),
-                _getGradient(),
+                getBackground(context, _activity.imgUrl),
+                getGradient(context),
                 new Column(
                   children: <Widget>[
                     new ActivityListView(_activity, horizontal: false),
@@ -341,12 +290,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
                             style: Style.headerTextStyle,
                           ),
                           new Separator(),
-                          MarkdownBody(
-                            data: _activity.description,
-                            onTapLink: (url) {
-                              _launchURL(url);
-                            },
-                          ),
+                          markdown(_activity.description),
                           _hasSignUp(_activity),
                           _getParticipants(_activity.participants, "participants"),
                           _getParticipants(_activity.participantsBackUpList, "The back-up list")
@@ -355,7 +299,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
                     ),
                   ],
                 ),
-                _getToolbar(context)
+                getToolbar(context)
               ],
             ),
           )
@@ -363,14 +307,17 @@ class _DetailPageState extends State<ActivityDetailPage> {
       );
     }
 
+
+
     return new Scaffold(
         key: _scaffoldKey,
         body: new Container(
           color: Theme.of(context).backgroundColor,
           constraints: new BoxConstraints.expand(),
-          child: new Stack(children: <Widget>[
+            child: new Stack(children: <Widget>[
             _getContent(),
           ]),
+//
         ));
   }
 }

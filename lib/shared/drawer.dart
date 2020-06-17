@@ -34,7 +34,14 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.calendar_today),
+            leading: Icon(Icons.format_align_justify),
+            title: Text('News'),
+            onTap: () {
+              _navigateTo('/news', context);
+            },
+          ),
+          ListTile(
+            leading: _getIconLoginLogout(context),
             title: Text(_checkLoginLogout(context)),
             onTap: () {
               _navigateTo('/' + _checkLoginLogout(context), context);
@@ -48,6 +55,14 @@ class DefaultDrawer extends StatelessWidget {
   void _navigateTo(String route, BuildContext context) {
     Navigator.pop(context);
     Navigator.of(context).pushNamed(route);
+  }
+
+  Icon _getIconLoginLogout(BuildContext context){
+    if (UserInfoInheritedWidget.of(context)
+        .userInfo
+        .getUserAttribute('is_logged_in')) {
+     return Icon(Icons.lock);
+    } else return Icon(Icons.lock_open);
   }
 
   String _checkLoginLogout(BuildContext context) {

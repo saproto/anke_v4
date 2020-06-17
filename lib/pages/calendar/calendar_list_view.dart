@@ -34,38 +34,6 @@ class CalendarListViewPage extends StatelessWidget{
 
 }
 
-
-//class _ListPageState extends State<CalendarListViewPage> {
-//  Future<List<Activity>> _futureActivity;
-//
-//  @override
-//  void initState() {
-//    // TODO: implement initState
-//    super.initState();
-//    _futureActivity = getActivities();
-//
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      body: FutureBuilder(
-//          future: _futureActivity,
-//          builder: (BuildContext context, AsyncSnapshot snapshot) {
-//            return ListView.builder(
-//              itemCount: getLengthOfData(snapshot),
-//                itemBuilder: (BuildContext context, int index){
-//                print("hallo");
-//                  return new ActivityListView(snapshot.data[index]);
-//                }
-//            );
-//          },
-//        ),
-//    );
-//  }
-//
-//}
-
 int getLengthOfData(AsyncSnapshot snapshot){
   if(snapshot.data != null){
     return snapshot.data.length;
