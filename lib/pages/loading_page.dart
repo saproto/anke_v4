@@ -49,6 +49,6 @@ class _LoadingPageState extends State<LoadingPage> {
     } else {
       UserInfoInheritedWidget.of(context).userInfo.resetInternalUserInfo();
     }
-    Navigator.of(context).pushNamed('/home');
+    Navigator.of(context).pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
   }
 }

@@ -45,6 +45,5 @@ class _LoginHandlerState extends State<LoginHandler> {
     Map<String, dynamic> userInfo = await requestApiCallResult('user/info');
     print(userInfo);
     UserInfoInheritedWidget.of(context).userInfo.updateFromJson(userInfo);
-    Navigator.of(context).pop();
-  }
+    Navigator.of(context).pushReplacementNamed('/home');  }
 }

@@ -52,6 +52,7 @@ class DefaultDrawer extends StatelessWidget {
             leading: _getIconLoginLogout(context),
             title: Text(_checkLoginLogout(context)),
             onTap: () {
+
               _navigateTo('/' + _checkLoginLogout(context), context);
             },
           ),
@@ -63,7 +64,9 @@ class DefaultDrawer extends StatelessWidget {
   void _navigateTo(String route, BuildContext context) {
     Navigator.pop(context);
     Navigator.of(context).pushNamed(route);
-  }
+   //Navigator.of(context).pushNamedAndRemoveUntil(route, ModalRoute.withName('/home'));
+
+}
 
   Icon _getIconLoginLogout(BuildContext context){
     if (UserInfoInheritedWidget.of(context)

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 
-final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+import 'launcURL.dart';
+
 
 Container getBackground(BuildContext context, String imgUrl) {
   if (imgUrl != null) {
@@ -66,17 +66,8 @@ MarkdownBody markdown(String data){
   return new MarkdownBody(
     data: data,
     onTapLink: (url){
-      _launchURL(url);
+      launchURL(url);
     }
   );
 }
 
-_launchURL(url) async {
-  if (await urlLauncher.canLaunch(url)) {
-    await urlLauncher.launch(url);
-  } else {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Something went wrong. Could not launch $url."),
-    ));
-  }
-}

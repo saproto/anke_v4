@@ -117,19 +117,19 @@ Column welcomeMessage(BuildContext context) {
         .of(context)
         .userInfo
         .getUserAttribute('welcome_message');
-    line1 = new Text("Hi $name,", style: Style.headerHomePageTextStyle,
+    line1 = new Text("Hi $name,", style: Style.headerWhiteTextStyle,
       textAlign: TextAlign.center,);
-    line2 = new Text("$welcomeMessage", style: Style.headerHomePageTextStyle,
+    line2 = new Text("$welcomeMessage", style: Style.headerWhiteTextStyle,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         maxLines: 2);
   } else {
     line1 = new Text("Welcome to the app of S.A Proto",
-      style: Style.headerHomePageTextStyle,
+      style: Style.headerWhiteTextStyle,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,);
-    line2 = new Text("Log in to unlock more features", style: Style.headerHomePageTextStyle.copyWith(fontSize: 18.0),
+    line2 = new Text("Log in to unlock more features", style: Style.headerWhiteTextStyle.copyWith(fontSize: 18.0),
       textAlign: TextAlign.center,);
   }
   return new Column(

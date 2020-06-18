@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0xff83b71a),
             accentColor: Color(0xff343a40),
             backgroundColor: Color(0xfff1f1f1),
+            errorColor: Color(0xffC50005),
             textTheme: TextTheme(
                 headline1: TextStyle(
                     fontSize: 18.0,
