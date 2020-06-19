@@ -2,8 +2,8 @@ import 'package:ankev928/models/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/textstyle.dart';
-import 'package:ankev928/shared/separator.dart';
 import 'package:ankev928/shared/card.dart';
+import 'package:ankev928/shared/block.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -146,33 +146,10 @@ ListView listView(String text) {
       scrollDirection: Axis.horizontal,
       itemCount: 10,
       itemBuilder: (BuildContext context, int index) {
-        return new block();
+        return block(new Container());
       });
 }
 
-class block extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      //height: 150,
-      width: 150,
-      margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
-      alignment: Alignment.center,
-      decoration: new BoxDecoration(
-        border: Border.all(color: Color(0xff6c757d), width: 0.5),
-        color: Colors.white,
-        shape: BoxShape.rectangle,
-        borderRadius: new BorderRadius.circular(8.0),
-        boxShadow: <BoxShadow>[
-          new BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10.0,
-            offset: new Offset(0.0, 10.0),
-          ),
-        ],
-      ),
-    );
-  }
-}
+
 //
 //

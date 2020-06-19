@@ -1,6 +1,7 @@
 import 'package:ankev928/pages/calendar/calendar.dart';
 import 'package:ankev928/pages/logout.dart';
 import 'package:ankev928/pages/omnomcom/omnomcom_page.dart';
+import 'package:ankev928/pages/photos/photo_albums_page.dart';
 import 'file:///C:/Users/Marloes%20ten%20Hage/Documents/commisies/beheer/saproto_final_really/lib/pages/omnomcom/qr_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/pages/homepage.dart';
@@ -28,6 +29,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => OmnomcomPage());
       case '/qrscanner':
       return MaterialPageRoute(builder: (_) => QrScannerPage());
+      case '/photos':
+        return MaterialPageRoute(builder: (_) => PhotoAlbumsPage());
       default:
         return _errorRoute("unkonw route");
     }

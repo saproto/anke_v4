@@ -49,6 +49,13 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: FaIcon(FontAwesomeIcons.camera),
+            title: Text('Photos'),
+            onTap: () {
+              _navigateTo('/photos', context);
+            },
+          ),
+          ListTile(
             leading: _getIconLoginLogout(context),
             title: Text(_checkLoginLogout(context)),
             onTap: () {

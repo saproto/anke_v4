@@ -34,6 +34,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
 
   @override
   void initState() {
+    super.initState();
     _activity = widget._activity;
   }
 
