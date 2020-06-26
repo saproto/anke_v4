@@ -1,6 +1,5 @@
 import 'package:ankev928/pages/photos/photos_page.dart';
 import 'package:ankev928/shared/separator.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/block.dart';
