@@ -1,15 +1,20 @@
 import 'package:ankev928/models/user_info.dart';
 import 'package:ankev928/routing/route_generator.dart';
+import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-void main() => runApp(MyApp());
+GetIt getIt = GetIt.instance;
+
+void main() {
+  getIt.registerSingleton<UserInfoService>(UserInfoService());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new UserInfoInheritedWidget(
-      userInfo: new UserInfo(),
-      child: new MaterialApp(
+    return  new MaterialApp(
         theme: ThemeData(
             primaryColor: Color(0xff83b71a),
             accentColor: Color(0xff343a40),
@@ -28,7 +33,6 @@ class MyApp extends StatelessWidget {
                     color: const Color(0xff6c757d)))),
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
-      ),
-    );
+      );
   }
 }

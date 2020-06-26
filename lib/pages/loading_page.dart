@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/models/user_info.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'package:get_it/get_it.dart';
+import 'package:ankev928/services/user_info_service.dart';
+
+GetIt getIt = GetIt.instance;
 
 class LoadingPage extends StatefulWidget {
   static _LoadingPageState of(BuildContext context) =>
@@ -13,42 +19,39 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => checkCredentials());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => checkCredentials(_userInfoService));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-//              children: <Widget>[
-//                Text(
-//                  'loading page',
-//                  style: TextStyle(fontSize: 35),
-//                )
-//              ],
-            children: <Widget>[
-              new Image.asset("assets/img/protologo.png"),
-            ],
-          ),
-        ));
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          new Image.asset("assets/img/protologo.png"),
+        ],
+      ),
+    ));
   }
 
-  void checkCredentials() async {
-
+  void checkCredentials(UserInfoService _userInfoService) async {
     bool hasCredentials = await checkForCredentials();
 
-    if(hasCredentials){
+    if (hasCredentials) {
       Map<String, dynamic> userInfo = await requestApiCallResult('user/info');
-      UserInfoInheritedWidget.of(context).userInfo.updateFromJson(userInfo);
+      _userInfoService.updateFromJson(userInfo);
     } else {
-      UserInfoInheritedWidget.of(context).userInfo.resetInternalUserInfo();
+      _userInfoService.resetAndWriteToSharedPrefs();
     }
-    Navigator.of(context).pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
+
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
   }
 }

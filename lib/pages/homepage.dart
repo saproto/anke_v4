@@ -4,6 +4,11 @@ import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/textstyle.dart';
 import 'package:ankev928/shared/card.dart';
 import 'package:ankev928/shared/block.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ankev928/services/user_info_service.dart';
+
+
+GetIt getIt = GetIt.instance;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -12,15 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  @override
-  Future didChangeDependencies() async {
-    super.didChangeDependencies();
-    await UserInfoInheritedWidget
-        .of(context)
-        .userInfo
-        .getAttributesFromSharedPrefs();
-    setState(() {});
-  }
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
+//
+//  @override
+//  Future didChangeDependencies() async {
+//    super.didChangeDependencies();
+//    await _userInfoService.readFromSharedPrefs();
+//    setState(() {});
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +51,14 @@ class _HomePage extends State<HomePage> {
                                   cardLayout(
                                       true, headerCardContentBackGroundImage,
                                       154.0),
-                                  headerCardContent(
-                                    context,
-                                  )
+                                  StreamBuilder(
+                                    stream: _userInfoService.stream$,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot snap) {
+                                        return headerCardContent(snap);
+                                    },
+                                  ),
+
                                 ],
                               ),
                             ),
@@ -90,33 +99,24 @@ final headerCardContentBackGroundImage = new Container(
   ),
 );
 
-Container headerCardContent(BuildContext context) {
+Container headerCardContent(AsyncSnapshot snap) {
   return new Container(
       child: new Padding(
         padding: EdgeInsets.only(top: 50),
         child: new Align(
           alignment: Alignment.center,
-          child: welcomeMessage(context),
+          child: welcomeMessage(snap),
         ),
       ));
 }
 
 
-Column welcomeMessage(BuildContext context) {
+Column welcomeMessage(AsyncSnapshot snap) {
   Text line1;
   Text line2;
-  if (UserInfoInheritedWidget
-      .of(context)
-      .userInfo
-      .getUserAttribute('is_logged_in')) {
-    String name = UserInfoInheritedWidget
-        .of(context)
-        .userInfo
-        .getUserAttribute('display_name');
-    String welcomeMessage = UserInfoInheritedWidget
-        .of(context)
-        .userInfo
-        .getUserAttribute('welcome_message');
+  if (snap.hasData && snap.data.isLoggedIn) {
+    String name = snap.data.displayName;
+    String welcomeMessage = snap.data.welcomeMessage;
     line1 = new Text("Hi $name,", style: Style.headerWhiteTextStyle,
       textAlign: TextAlign.center,);
     line2 = new Text("$welcomeMessage", style: Style.headerWhiteTextStyle,
@@ -129,7 +129,8 @@ Column welcomeMessage(BuildContext context) {
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       maxLines: 2,);
-    line2 = new Text("Log in to unlock more features", style: Style.headerWhiteTextStyle.copyWith(fontSize: 18.0),
+    line2 = new Text("Log in to unlock more features",
+      style: Style.headerWhiteTextStyle.copyWith(fontSize: 18.0),
       textAlign: TextAlign.center,);
   }
   return new Column(

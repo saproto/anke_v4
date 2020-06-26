@@ -1,6 +1,12 @@
+import 'package:ankev928/shared/api_call.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/models/user_info.dart';
+
+import 'package:get_it/get_it.dart';
+import 'package:ankev928/services/user_info_service.dart';
+
+GetIt getIt = GetIt.instance;
 
 class LogoutHandler extends StatefulWidget {
   static _LogoutHandler of(BuildContext context) =>
@@ -11,11 +17,12 @@ class LogoutHandler extends StatefulWidget {
 }
 
 class _LogoutHandler extends State<LogoutHandler> {
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => logout());
+        .addPostFrameCallback((_) => logout(_userInfoService));
   }
 
   @override
@@ -38,9 +45,9 @@ class _LogoutHandler extends State<LogoutHandler> {
         ));
   }
 
-  void logout() async {
-    await UserInfoInheritedWidget.of(context).userInfo.resetUserInfo();
-    print( UserInfoInheritedWidget.of(context).userInfo.getUserAttribute('display_name'));
+  void logout(UserInfoService _userInfoService) async {
+    revokeTokens();
+    await _userInfoService.resetAndWriteToSharedPrefs();
     Navigator.of(context).pushReplacementNamed('/home');
   }
 }

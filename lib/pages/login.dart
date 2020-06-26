@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/models/user_info.dart';
+import 'package:get_it/get_it.dart';
+import 'package:ankev928/services/user_info_service.dart';
+
+GetIt getIt = GetIt.instance;
+
 
 class LoginHandler extends StatefulWidget {
   static _LoginHandlerState of(BuildContext context) =>
@@ -14,11 +19,12 @@ class LoginHandler extends StatefulWidget {
 }
 
 class _LoginHandlerState extends State<LoginHandler> {
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => login());
+    WidgetsBinding.instance.addPostFrameCallback((_) => login(_userInfoService));
   }
 
   @override
@@ -41,9 +47,9 @@ class _LoginHandlerState extends State<LoginHandler> {
         ));
   }
 
-  void login() async {
+  void login(UserInfoService _userInfoService) async {
+
     Map<String, dynamic> userInfo = await requestApiCallResult('user/info');
-    print(userInfo);
-    UserInfoInheritedWidget.of(context).userInfo.updateFromJson(userInfo);
+    _userInfoService.updateFromJson(userInfo);
     Navigator.of(context).pushReplacementNamed('/home');  }
 }
