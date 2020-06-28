@@ -1,36 +1,36 @@
+import 'package:ankev928/services/activity_list_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:table_calendar/table_calendar.dart';
-import 'package:ankev928/models/activity.dart';
-import 'package:ankev928/pages/calendar/get_activities.dart';
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
+import 'package:get_it/get_it.dart';
 
 
+GetIt getIt = GetIt.instance;
 
 
 class CalendarMonthViewPage extends StatefulWidget {
-  final Future<List<Activity>> _futureActivity;
 
-  CalendarMonthViewPage(this._futureActivity);
+  CalendarMonthViewPage();
 
   @override
-  _CalendarPageState createState() => _CalendarPageState(this._futureActivity);
+  _CalendarPageState createState() => _CalendarPageState();
 }
 
 class _CalendarPageState extends State<CalendarMonthViewPage> {
+  final ActivityListService _activityListService = getIt.get<ActivityListService>();
+
   CalendarController _controller;
-  Future<List<Activity>> _futureActivity;
   List<dynamic> _selectedEvents;
 
-  _CalendarPageState(this._futureActivity);
+  _CalendarPageState();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = CalendarController();
     _selectedEvents = [];
-   _futureActivity = widget._futureActivity;
     //_futureActivity = getActivities();
   }
 
@@ -60,9 +60,8 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
   Widget build (BuildContext context){
     return Scaffold(
       body: SingleChildScrollView(
-      //child: new RefreshIndicator(
-        child: FutureBuilder(
-          future: _futureActivity,
+        child: StreamBuilder(
+          stream:_activityListService.stream$ ,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +104,7 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
             );
           },
         ),
-      ),
+        ),
     );
   }
 }

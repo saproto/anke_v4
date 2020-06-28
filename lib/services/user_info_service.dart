@@ -24,6 +24,7 @@ class UserInfoService {
       photoUrl: prefs.getString("photoUrl") ?? null,
       id: prefs.getInt("id") ?? null,
       welcomeMessage: prefs.getString("welcomeMessage") ?? null,
+      fullName: prefs.getString("fullName") ?? null,
     ));
   }
 
@@ -36,6 +37,7 @@ class UserInfoService {
     prefs.setString("photoUrl", current.photoUrl);
     prefs.setInt("id", current.id);
     prefs.setString("welcomeMessage", current.welcomeMessage);
+    prefs.setString('fullName', current.fullName);
   }
 
   void updateFromJson(Map<String, dynamic> json) {
@@ -47,6 +49,7 @@ class UserInfoService {
       photoUrl: json['photo_preview'],
       id: json['id'],
       welcomeMessage: json['welcome_message'],
+      fullName: json['name']
     ));
     writeToSharedPrefs();
   }
@@ -60,6 +63,7 @@ class UserInfoService {
       photoUrl: null,
       id: null,
       welcomeMessage: null,
+      fullName: null
     ));
   }
 

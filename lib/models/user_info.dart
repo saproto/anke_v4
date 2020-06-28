@@ -7,6 +7,7 @@ class UserInfo extends Object {
   bool isLoggedIn;
   String displayName;
   String userName;
+  String fullName;
   String email;
   String photoUrl;
   int id;
@@ -16,6 +17,7 @@ class UserInfo extends Object {
     this.isLoggedIn,
     this.displayName,
     this.userName,
+    this.fullName,
     this.email,
     this.photoUrl,
     this.id,

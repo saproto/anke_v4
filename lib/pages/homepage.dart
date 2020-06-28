@@ -1,4 +1,3 @@
-import 'package:ankev928/models/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/textstyle.dart';

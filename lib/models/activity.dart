@@ -6,8 +6,8 @@ class Activity {
   final DateTime endDate;
   final String location;
   final String imgUrl;
-  final int price;
-  final int noShowFee;
+   final dynamic  price;
+   final dynamic noShowFee;
   bool userHasSignedUp;
   final bool hasSignUp;
   final bool canSignUp;
@@ -56,4 +56,11 @@ class Activity {
     this.participants,
     this.participantsBackUpList,
   });
+}
+
+class Participant{
+  String name;
+  String photo;
+
+  Participant(this.name, this.photo);
 }

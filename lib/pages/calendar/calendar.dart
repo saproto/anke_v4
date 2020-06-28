@@ -19,15 +19,15 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   int _currentIndex = 1;
   List<Widget> _children = [];
-  Future<List<Activity>> _futureActivity;
+  //Future<List<Activity>> _futureActivity;
 
   _setActivities(){
     setState(() {});
-    _futureActivity = getActivities();
+  //  _futureActivity = getActivities();
     _children = [
-      CalendarListViewPage(_futureActivity),
-      CalendarMonthViewPage(_futureActivity),
-      CalendarMyActivitiesViewPage(_futureActivity)
+      CalendarListViewPage(),
+      CalendarMonthViewPage(),
+      CalendarMyActivitiesViewPage()
     ];
   }
 

@@ -1,3 +1,4 @@
+import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -5,44 +6,30 @@ import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'dart:convert';
 
-import 'package:flutter_markdown/flutter_markdown.dart';
-
 import 'package:ankev928/shared/textstyle.dart';
 import 'package:ankev928/shared/functions.dart';
 import '../../shared/api_call.dart';
 
-
 import '../../shared/separator.dart';
 import '../../shared/shared_detailpage.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+import 'package:ankev928/services/activity_list_service.dart';
+import 'package:get_it/get_it.dart';
 
+GetIt getIt = GetIt.instance;
 
-class ActivityDetailPage extends StatefulWidget {
-  final Activity _activity;
+class ActivityDetailPage extends StatelessWidget {
+  final ActivityListService _activityListService =
+      getIt.get<ActivityListService>();
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
-  ActivityDetailPage(this._activity);
-
-  @override
-  _DetailPageState createState() => _DetailPageState(this._activity);
-}
-
-class _DetailPageState extends State<ActivityDetailPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  Activity _activity;
+  int _activityID;
 
-  _DetailPageState(this._activity);
-
-  @override
-  void initState() {
-    super.initState();
-    _activity = widget._activity;
-  }
-
-
+  ActivityDetailPage(this._activityID);
 
   @override
   Widget build(BuildContext context) {
-
     Text _userSignedUpTextField(Activity activity) {
       if (activity.userHasSignedUp) {
         return new Text(
@@ -72,23 +59,18 @@ class _DetailPageState extends State<ActivityDetailPage> {
       return null;
     }
 
-    Future<void> _signUp(Activity activity, bool signup) async {
+    Future<void> _signUp(Activity activity, bool isBackUp) async {
       try {
         var signUpRequest = await requestApiCallResult(
             'events/signup/' + activity.id.toString());
         var decodedSignUpRequest = jsonDecode(signUpRequest["message"]);
         if (decodedSignUpRequest.containsKey("participation_id")) {
-          if (signup) {
-            setState(() {
-              activity.userHasSignedUp = true;
-              activity.userSingUpId = decodedSignUpRequest["participation_id"];
-            });
-          } else {
-            setState(() {
-              activity.userHasSignedUpBackUp = true;
-              activity.userSingUpId = decodedSignUpRequest["participation_id"];
-            });
-          }
+          _activityListService.toggleParticipation(
+              activityID: activity.id,
+              isBackUpParticipation: isBackUp,
+              isSignUp: true,
+              signUpId: decodedSignUpRequest["participation_id"],
+              userInfo: _userInfoService.current);
         }
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(decodedSignUpRequest["message"]),
@@ -107,10 +89,11 @@ class _DetailPageState extends State<ActivityDetailPage> {
             'events/signout/' + activity.userSingUpId.toString());
         var decodedSignOutRequest = jsonDecode(signOutRequest["message"]);
         if (decodedSignOutRequest['success']) {
-          setState(() {
-            activity.userHasSignedUp = false;
-            activity.userHasSignedUpBackUp = false;
-          });
+          _activityListService.toggleParticipation(
+              activityID: activity.id,
+              isBackUpParticipation: activity.userHasSignedUpBackUp,
+              isSignUp: false,
+              userInfo: _userInfoService.current);
         }
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(decodedSignOutRequest["message"]),
@@ -130,7 +113,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
         return new RaisedButton(
           child: const Text("Signup closed! Put me on the back-up list."),
           onPressed: (() {
-            _signUp(activity, false);
+            _signUp(activity, true);
           }),
         );
       }
@@ -142,7 +125,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
         return new RaisedButton(
           child: const Text("Sign me up!"),
           onPressed: (() {
-            _signUp(activity, true);
+            _signUp(activity, false);
           }),
         );
       }
@@ -184,17 +167,18 @@ class _DetailPageState extends State<ActivityDetailPage> {
 
     Text _signUpInformation(Activity activity) {
       var formatDate = new DateFormat('EEE, d MMM  HH:mm');
-      if(activity.startSignup == null || activity.endSignup == null || activity.endSignout ==null ){
+      if (activity.startSignup == null ||
+          activity.endSignup == null ||
+          activity.endSignout == null) {
         return null;
-      } else{
+      } else {
         String startSignup = formatDate.format(activity.startSignup);
         String endSignup = formatDate.format(activity.endSignup);
         String endSignOut = formatDate.format(activity.endSignout);
         return new Text(
             "Sign up opens at: $startSignup \nand closes at: $endSignup \n"
-                "It is possible to sign out till: $endSignOut");
+            "It is possible to sign out till: $endSignOut");
       }
-
     }
 
     Column _hasSignUp(Activity activity) {
@@ -225,9 +209,6 @@ class _DetailPageState extends State<ActivityDetailPage> {
       }
       return null;
     }
-
-
-
 
     List<Row> _getParticipantsList(var participants) {
       List<Row> participantsList = [];
@@ -272,41 +253,66 @@ class _DetailPageState extends State<ActivityDetailPage> {
         ));
       }
     }
+    Stack _getContentStack (Activity _activity) {
+      final _overwiewTitle = "Description".toUpperCase();
+      return new Stack(
+        children: <Widget>[
+          getBackground(context, _activity.imgUrl),
+          getGradient(context),
+          new Column(
+            children: <Widget>[
+              new ActivityListView(_activity, horizontal: false),
+              new Container(
+                padding: new EdgeInsets.symmetric(horizontal: 32.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      _overwiewTitle,
+                      style: Style.headerTextStyle,
+                    ),
+                    new Separator(),
+                    markdown(_activity.description),
+                    _hasSignUp(_activity),
+                    _getParticipants(_activity.participants, "participants"),
+                    _getParticipants(
+                        _activity.participantsBackUpList, "The back-up list")
+                  ].where(notNull).toList(),
+                ),
+              ),
+            ],
+          ),
+          getToolbar(context)
+        ],
+      );
+    }
 
     Widget _getContent() {
-      final _overwiewTitle = "Description".toUpperCase();
       return new ListView(
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 32.0),
         children: <Widget>[
           new Container(
-            child: new Stack(
-              children: <Widget>[
-                getBackground(context, _activity.imgUrl),
-                getGradient(context),
-                new Column(
-                  children: <Widget>[
-                    new ActivityListView(_activity, horizontal: false),
-                    new Container(
-                      padding: new EdgeInsets.symmetric(horizontal: 32.0),
-                      child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Text(
-                            _overwiewTitle,
-                            style: Style.headerTextStyle,
-                          ),
-                          new Separator(),
-                          markdown(_activity.description),
-                          _hasSignUp(_activity),
-                          _getParticipants(_activity.participants, "participants"),
-                          _getParticipants(_activity.participantsBackUpList, "The back-up list")
-                        ].where(notNull).toList(),
-                      ),
+            child: StreamBuilder(
+              stream: _activityListService.stream$,
+              builder: (BuildContext context, AsyncSnapshot snap) {
+                if (snap.data != null) {
+                  Activity _activity =
+                  ActivityListService.getActivityById(snap.data, _activityID);
+                  return _getContentStack(_activity);
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          'Loading pictures',
+                          style: TextStyle(fontSize: 35),
+                        )
+                      ],
                     ),
-                  ],
-                ),
-                getToolbar(context)
-              ],
+                  );
+                }
+              },
             ),
           )
         ],
@@ -320,7 +326,7 @@ class _DetailPageState extends State<ActivityDetailPage> {
         body: new Container(
           color: Theme.of(context).backgroundColor,
           constraints: new BoxConstraints.expand(),
-            child: new Stack(children: <Widget>[
+          child: new Stack(children: <Widget>[
             _getContent(),
           ]),
 //

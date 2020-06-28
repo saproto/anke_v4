@@ -2,13 +2,10 @@ import 'dart:convert';
 
 import 'package:ankev928/shared/textstyle.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/api_call.dart';
-import 'package:ankev928/shared/functions.dart';
-import 'package:ankev928/shared/textstyle.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class PurchasePage extends StatefulWidget {
   final String _qrText;

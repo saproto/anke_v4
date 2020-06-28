@@ -48,7 +48,6 @@ class _LoginHandlerState extends State<LoginHandler> {
   }
 
   void login(UserInfoService _userInfoService) async {
-
     Map<String, dynamic> userInfo = await requestApiCallResult('user/info');
     _userInfoService.updateFromJson(userInfo);
     Navigator.of(context).pushReplacementNamed('/home');  }

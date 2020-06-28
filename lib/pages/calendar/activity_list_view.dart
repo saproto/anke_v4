@@ -61,7 +61,7 @@ class ActivityListView extends StatelessWidget {
       onTap: horizontal
           ? () => Navigator.of(context)
               .push(new PageRouteBuilder(
-                pageBuilder: (_, __, ___) => new ActivityDetailPage(activity),
+                pageBuilder: (_, __, ___) => new ActivityDetailPage(activity.id),
               ) ) : null,
       child: new Container(
           margin: const EdgeInsets.symmetric(

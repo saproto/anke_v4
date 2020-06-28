@@ -1,5 +1,6 @@
-import 'package:ankev928/models/user_info.dart';
 import 'package:ankev928/routing/route_generator.dart';
+import 'package:ankev928/services/activity_list_service.dart';
+import 'package:ankev928/services/news_article_list_service.dart';
 import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +9,10 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton<UserInfoService>(UserInfoService());
+  getIt.registerSingleton<NewsArticleListService>(NewsArticleListService());
+  getIt.registerSingleton<ActivityListService>(ActivityListService());
+
+
   runApp(MyApp());
 }
 
