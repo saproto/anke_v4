@@ -1,5 +1,5 @@
 import 'package:ankev928/models/news_article.dart';
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<List<NewsArticle>> getNewsArticles() async {
   List<dynamic> articleInfo =

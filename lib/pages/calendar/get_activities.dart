@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:ankev928/models/activity.dart';
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<List<Activity>> getActivities() async {
   List<dynamic> calenderInfo =

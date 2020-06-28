@@ -65,6 +65,10 @@ flutter:
     - assets/img/clock.png
     - assets/img/location.png
     - assets/img/loading.gif
+    - assets/img/qrscanner.png
+    - assets/img/there.png
+    - assets/img/not_there.png
+    - assets/img/quotes.png
 
 
   fonts:

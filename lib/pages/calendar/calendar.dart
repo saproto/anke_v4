@@ -1,13 +1,10 @@
-import 'package:ankev928/models/user_info.dart';
-import 'package:ankev928/models/activity.dart';
 
 import 'package:ankev928/shared/drawer.dart';
-import 'package:ankev928/shared/textstyle.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 
-import 'calendar_month_view.dart';
-import 'calendar_list_view.dart';
-import 'calendar_my_activities_view.dart';
-import 'package:ankev928/pages/calendar/get_activities.dart';
+import 'package:ankev928/pages/calendar/calendar_month_view.dart';
+import 'package:ankev928/pages/calendar/calendar_list_view.dart';
+import 'package:ankev928/pages/calendar/calendar_my_activities_view.dart';
 
 import 'package:flutter/material.dart';
 
@@ -21,22 +18,15 @@ class _CalendarPageState extends State<CalendarPage> {
   List<Widget> _children = [];
   //Future<List<Activity>> _futureActivity;
 
-  _setActivities(){
-    setState(() {});
-  //  _futureActivity = getActivities();
+
+  @override
+  void initState() {
+    super.initState();
     _children = [
       CalendarListViewPage(),
       CalendarMonthViewPage(),
       CalendarMyActivitiesViewPage()
     ];
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => decodeActvities());
-    _setActivities();
   }
 
   @override

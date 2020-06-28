@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:ankev928/shared/textstyle.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
 
 
 class PurchasePage extends StatefulWidget {

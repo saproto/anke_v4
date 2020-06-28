@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ankev928/config/oauth.dart';
-import 'package:ankev928/shared/proto_api.dart';
+import 'package:ankev928/shared/helpers/proto_api.dart';
+
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/oauth2_response.dart';
 

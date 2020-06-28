@@ -1,14 +1,13 @@
-import 'package:ankev928/pages/photos/photos_page.dart';
-import 'package:ankev928/shared/separator.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
-import 'package:ankev928/shared/block.dart';
+import 'package:ankev928/shared/styling/block.dart';
+import 'package:ankev928/shared/styling/block_content.dart';
+
+import 'package:ankev928/pages/photos/photos_page.dart';
+import 'package:ankev928/pages/photos/get_photo_albums.dart';
 
 import 'package:ankev928/models/photo_album.dart';
-import 'package:ankev928/pages/photos/get_photo_albums.dart';
-import 'package:intl/intl.dart';
 
-import 'package:ankev928/shared/textstyle.dart';
 
 class PhotoAlbumsPage extends StatefulWidget {
   @override
@@ -58,64 +57,14 @@ List<Widget> _getBlocks(BuildContext context, AsyncSnapshot snapshot) {
           Navigator.of(context).push(new PageRouteBuilder(
               pageBuilder: (_, __, ___) => new PhotoPage(snapshot.data[i])));
         }),
-        child: block(blockContent(snapshot.data[i])),
+        child: block(blockContent(
+            title: snapshot.data[i].name,
+            date: snapshot.data[i].albumDate,
+            maxlines: 2)),
 
-//              new Stack(
-//                children: <Widget>[
-//                  block(),
-//                  //blockContent(snapshot.data[i]),
-//                ],
-//              )
+
       )));
     }
   }
   return tiles;
-}
-
-Container blockContent(PhotoAlbum photoAlbum) {
-  return new Container(
-      margin: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Flexible(
-            flex: 3,
-            child: Text(
-              photoAlbum.name,
-              style: Style.headerTextStyle.copyWith(color: Color(0xff6c757d)),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-            ),
-          ),
-          Flexible(
-              flex: 0,
-              fit: FlexFit.tight,
-              child: new Container(
-                height: 2.0,
-              )),
-          Separator(),
-          Flexible(
-              flex: 0,
-              fit: FlexFit.tight,
-              child: new Container(
-                height: 2.0,
-              )),
-          Flexible(
-            flex: 1,
-            child: Text(
-              _getCorrectFormatDate(photoAlbum.albumDate),
-              overflow: TextOverflow.fade,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-            ),
-          )
-          ,
-        ],
-      ));
-}
-
-String _getCorrectFormatDate(DateTime date) {
-  var formatDate = new DateFormat('EEE, d MMM yyyy');
-  return formatDate.format(date);
 }

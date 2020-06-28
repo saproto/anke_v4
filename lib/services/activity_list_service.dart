@@ -1,5 +1,6 @@
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/models/user_info.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 class ActivityListService {
@@ -35,7 +36,7 @@ class ActivityListService {
 
     for (Activity activity in _currentActivityList) {
       if (activity.id == activityID) {
-        Map<String, dynamic> userParticpant = {'name': userInfo.displayName, 'photo': userInfo.photoUrl};
+        Map<String, dynamic> userParticpant = {'name': userInfo.fullName, 'photo': userInfo.photoUrl};
 
         if (isBackUpParticipation) {
           activity.userHasSignedUpBackUp = !activity.userHasSignedUpBackUp;

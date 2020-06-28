@@ -1,9 +1,7 @@
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'package:ankev928/services/activity_list_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:ankev928/pages/calendar/get_activities.dart';
-import 'package:ankev928/models/activity.dart';
+
 import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;

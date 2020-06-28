@@ -1,7 +1,9 @@
-import 'package:ankev928/routing/route_generator.dart';
-import 'package:ankev928/services/activity_list_service.dart';
-import 'package:ankev928/services/news_article_list_service.dart';
-import 'package:ankev928/services/user_info_service.dart';
+import 'routing/route_generator.dart';
+
+import 'services/activity_list_service.dart';
+import 'services/news_article_list_service.dart';
+import 'services/user_info_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

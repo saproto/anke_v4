@@ -1,20 +1,23 @@
-import 'package:ankev928/services/user_info_service.dart';
+import 'package:ankev928/shared/styling/separator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ankev928/models/activity.dart';
-import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'dart:convert';
-
-import 'package:ankev928/shared/textstyle.dart';
-import 'package:ankev928/shared/functions.dart';
-import '../../shared/api_call.dart';
-
-import '../../shared/separator.dart';
-import '../../shared/shared_detailpage.dart';
-import 'package:url_launcher/url_launcher.dart' as urlLauncher;
-import 'package:ankev928/services/activity_list_service.dart';
 import 'package:get_it/get_it.dart';
+
+
+import 'package:ankev928/models/activity.dart';
+
+import 'package:ankev928/pages/calendar/activity_list_view.dart';
+
+
+import 'package:ankev928/shared/styling/textstyle.dart';
+import 'package:ankev928/shared/helpers/functions.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
+import 'package:ankev928/shared/styling/shared_detailpage.dart';
+
+import 'package:ankev928/services/activity_list_service.dart';
+import 'package:ankev928/services/user_info_service.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -24,7 +27,7 @@ class ActivityDetailPage extends StatelessWidget {
   final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  int _activityID;
+  final int _activityID;
 
   ActivityDetailPage(this._activityID);
 
@@ -244,15 +247,15 @@ class ActivityDetailPage extends StatelessWidget {
       return null;
     }
 
-    _launchURL(url) async {
-      if (await urlLauncher.canLaunch(url)) {
-        await urlLauncher.launch(url);
-      } else {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text("Something went wrong. Could not launch $url."),
-        ));
-      }
-    }
+//    _launchURL(url) async {
+//      if (await urlLauncher.canLaunch(url)) {
+//        await urlLauncher.launch(url);
+//      } else {
+//        _scaffoldKey.currentState.showSnackBar(SnackBar(
+//          content: Text("Something went wrong. Could not launch $url."),
+//        ));
+//      }
+//    }
     Stack _getContentStack (Activity _activity) {
       final _overwiewTitle = "Description".toUpperCase();
       return new Stack(

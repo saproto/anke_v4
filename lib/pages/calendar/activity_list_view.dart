@@ -1,13 +1,14 @@
-import 'package:ankev928/shared/card.dart';
+import 'package:ankev928/shared/styling/card.dart';
+import 'package:ankev928/shared/styling/separator.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
+
+import 'package:ankev928/models/activity.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:ankev928/models/activity.dart';
-
-import 'package:ankev928/shared/textstyle.dart';
-import '../../shared/separator.dart';
-import 'activity_detailpage.dart';
+import 'package:ankev928/pages/calendar/activity_detailpage.dart';
 
 class ActivityListView extends StatelessWidget {
   final Activity activity;

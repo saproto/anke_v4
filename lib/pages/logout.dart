@@ -1,7 +1,6 @@
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
-import 'package:ankev928/models/user_info.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:ankev928/services/user_info_service.dart';

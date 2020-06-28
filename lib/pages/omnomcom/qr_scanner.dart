@@ -1,5 +1,4 @@
-import 'file:///C:/Users/Marloes%20ten%20Hage/Documents/commisies/beheer/saproto_final_really/lib/pages/omnomcom/purchase_page.dart';
-import 'package:ankev928/shared/launcURL.dart';
+import 'package:ankev928/pages/omnomcom/purchase_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

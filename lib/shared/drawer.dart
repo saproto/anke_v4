@@ -1,4 +1,3 @@
-import 'package:ankev928/models/user_info.dart';
 import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -59,10 +58,8 @@ class _DefaultDrawer extends State<DefaultDrawer> {
               padding: EdgeInsets.zero,
               children: [
                 UserAccountsDrawerHeader(
-                  accountName: Text(
-                      snap.data.displayName ??
-                          'Not logged in'),
-                  accountEmail: Text(snap.data.email ?? ''),
+                  accountName: getName(snap),
+                  accountEmail: getEmail(snap),
                   currentAccountPicture: _getPhotoThumbnail(snap),
                   onDetailsPressed: () {
                     _toggleAccountMenu();
@@ -138,6 +135,23 @@ class _DefaultDrawer extends State<DefaultDrawer> {
     );
   }
 
+
+  Text getName(AsyncSnapshot snap){
+    if(snap.data != null){
+      return new Text(snap.data.displayName );
+    } else {
+      return new Text('Not logged in');
+    }
+  }
+
+  Text getEmail(AsyncSnapshot snap){
+    if(snap.data != null){
+      return new Text(snap.data.email );
+    } else {
+      return new Text('');
+    }
+  }
+
   void _navigateTo(String route, BuildContext context) {
     Navigator.pop(context);
     Navigator.of(context).pushNamed(route);
@@ -145,14 +159,14 @@ class _DefaultDrawer extends State<DefaultDrawer> {
   }
 
   Icon _getIconLoginLogout(AsyncSnapshot snap) {
-    if (snap.data.isLoggedIn) {
+    if (snap.data != null && snap.data.isLoggedIn) {
       return Icon(Icons.lock);
     } else
       return Icon(Icons.lock_open);
   }
 
   String _checkLoginLogout(AsyncSnapshot snap) {
-    if (snap.data.isLoggedIn) {
+    if (snap.data != null && snap.data.isLoggedIn) {
       return 'logout';
     } else {
       return 'login';
@@ -160,8 +174,8 @@ class _DefaultDrawer extends State<DefaultDrawer> {
   }
 
   CircleAvatar _getPhotoThumbnail(AsyncSnapshot snap) {
-    dynamic isLoggedIn = snap.data.isLoggedIn;
-    if (isLoggedIn != null && isLoggedIn == true) {
+  //  dynamic isLoggedIn =
+    if (snap.data != null && snap.data.isLoggedIn == true) {
       return new CircleAvatar(
           backgroundImage:
               NetworkImage(snap.data.photoUrl));

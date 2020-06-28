@@ -1,11 +1,10 @@
 import 'package:ankev928/pages/news/article_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:intl/intl.dart';
+
 import 'package:ankev928/models/news_article.dart';
 
-import '../../shared/shared_detailpage.dart';
+import 'package:ankev928/shared/styling/shared_detailpage.dart';
 
 class ArticlePage extends StatelessWidget {
   final NewsArticle _newsArticle;

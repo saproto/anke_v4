@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'launcURL.dart';
+import 'package:ankev928/shared/helpers/launcURL.dart';
 
 
 Container getBackground(BuildContext context, String imgUrl) {

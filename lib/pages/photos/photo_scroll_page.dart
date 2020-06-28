@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:photo_view/photo_view.dart';
 
 class PhotoScrollPage extends StatefulWidget {
   final List<Photo> _photos;

@@ -1,13 +1,13 @@
 import 'package:ankev928/models/news_article.dart';
-import 'package:ankev928/shared/card.dart';
+import 'package:ankev928/shared/styling/card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
 import 'package:ankev928/pages/news/article_page.dart';
 
-import 'package:ankev928/shared/textstyle.dart';
-import 'package:ankev928/shared/separator.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
+import 'package:ankev928/shared/styling/separator.dart';
 import 'package:intl/intl.dart';
 
 class ArticleListView extends StatelessWidget {

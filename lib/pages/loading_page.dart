@@ -3,7 +3,7 @@ import 'package:ankev928/models/news_article.dart';
 import 'package:ankev928/pages/calendar/get_activities.dart';
 import 'package:ankev928/services/activity_list_service.dart';
 import 'package:ankev928/services/news_article_list_service.dart';
-import 'package:ankev928/shared/api_call.dart';
+import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:flutter/material.dart';
 
 

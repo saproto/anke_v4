@@ -50,11 +50,6 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
     return newMap;
   }
 
-//  Future<void> _refreshActivities() async {
-//      setState(() {
-//        _futureActivity = getActivities();
-//      });
-//    }
 
   @override
   Widget build (BuildContext context){
@@ -113,17 +108,16 @@ CalendarStyle _calendarStyle (BuildContext context){
   return new CalendarStyle(
     todayColor: Color.fromRGBO(131, 183, 26, 0.5),
     todayStyle:  usedTextStyle(Colors.white),
-    weekendStyle:  usedTextStyle(Colors.black),
-    holidayStyle: usedTextStyle(Colors.black),
-    // outsideDaysVisible: false,
-    outsideStyle: usedTextStyle(Colors.black12),
-    outsideWeekendStyle: usedTextStyle(Colors.black12),
+    weekendStyle:  usedTextStyle(Color(0xff6c757d)),
+    holidayStyle: usedTextStyle(Color(0xff6c757d)),
+    outsideStyle: usedTextStyle(Color(0xff6c757d)),
+    outsideWeekendStyle: usedTextStyle(Color(0xff6c757d)),
   );
 }
 
 DaysOfWeekStyle _daysOfWeekStyle(){
   return new DaysOfWeekStyle(
-      weekendStyle: usedTextStyle(Colors.black)
+      weekendStyle: usedTextStyle(Color(0xff6c757d))
   );
 }
 

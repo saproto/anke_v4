@@ -1,33 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:ankev928/pages/calendar/activity_list_view.dart';
 import 'package:ankev928/services/activity_list_service.dart';
-import 'package:flutter/material.dart';
 
-
-import 'package:ankev928/shared/functions.dart';
-import '../../shared/card.dart';
-import 'package:ankev928/shared/textstyle.dart';
+import 'package:ankev928/shared/helpers/functions.dart';
+import 'package:ankev928/shared/styling/title_style.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:ankev928/models/activity.dart';
-import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;
 
-class CalendarMyActivitiesViewPage extends StatefulWidget {
-  CalendarMyActivitiesViewPage();
-
-  @override
-  _CalendarMyActivitiesViewPageState createState() =>
-      _CalendarMyActivitiesViewPageState();
-}
-
-class _CalendarMyActivitiesViewPageState
-    extends State<CalendarMyActivitiesViewPage> {
+class CalendarMyActivitiesViewPage extends StatelessWidget {
   final ActivityListService _activityListService =
       getIt.get<ActivityListService>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +46,13 @@ class _CalendarMyActivitiesViewPageState
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  attending.length > 0 ? getHeader("Participating") : null,
+                  attending.length > 0 ? getTitle("Participating") : null,
                   ...attending.map((event) => ActivityListView(event)),
-                  organizing.length > 0 ? getHeader("Organizing") : null,
+                  organizing.length > 0 ? getTitle("Organizing") : null,
                   ...organizing.map((event) => ActivityListView(event)),
-                  helping.length > 0 ? getHeader("Helping") : null,
+                  helping.length > 0 ? getTitle("Helping") : null,
                   ...helping.map((event) => ActivityListView(event)),
-                  isBackUp.length > 0 ? getHeader("On backup list") : null,
+                  isBackUp.length > 0 ? getTitle("On backup list") : null,
                   ...isBackUp.map((event) => ActivityListView(event)),
                 ].where(notNull).toList(),
               );
@@ -126,7 +112,8 @@ List<Activity> isBackUpActivities(AsyncSnapshot snapshot) {
   List<Activity> backUpActivities = [];
   if (snapshot.data != null) {
     for (var activity in snapshot.data) {
-      if (activity.userHasSignedUpBackUp != null && activity.userHasSignedUpBackUp) {
+      if (activity.userHasSignedUpBackUp != null &&
+          activity.userHasSignedUpBackUp) {
         backUpActivities.add(activity);
       }
     }
