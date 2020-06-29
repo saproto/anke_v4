@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class Style {
@@ -33,6 +35,10 @@ class Style {
       color: const Color(0xff6c757d),
       fontSize: 12.0,
       fontWeight: FontWeight.w400);
+
+  static final regularTextStyleButMono =regularTextStyle.copyWith(
+    fontFeatures: [FontFeature.tabularFigures()]
+  );
 
   static final subHeaderTextStyle = regularTextStyle.copyWith(fontSize: 12.0);
 }

@@ -1,4 +1,5 @@
 import 'package:ankev928/pages/omnomcom/purchase_page.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -50,8 +51,16 @@ class _QrScannerPage extends State<QrScannerPage> {
         qrText = scanData;
         this.controller.pauseCamera();
         if (qrText != null) {
-          Navigator.of(context).push(new PageRouteBuilder(
-              pageBuilder: (_, __, ___) => new PurchasePage(qrText)));
+          if(qrText.contains("https://www.proto.utwente.nl/qr")) {
+            Navigator.of(context).push(new PageRouteBuilder(
+                pageBuilder: (_, __, ___) => new PurchasePage(qrText)));
+          } else {
+            this.controller.resumeCamera();
+            Flushbar(
+                message:"QR code was not recognized as an omnomcom QR code, please try again",
+                duration: Duration(seconds: 10),
+            )..show(context);
+          }
         }
       });
     });

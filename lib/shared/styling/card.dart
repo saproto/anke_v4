@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Container cardLayout(bool horizontal, Container content, double height) {
   return new Container(
+    alignment: Alignment.centerLeft,
     child: content,
     height: height,
     margin: horizontal
