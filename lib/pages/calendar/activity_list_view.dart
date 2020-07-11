@@ -1,4 +1,5 @@
 import 'package:ankev928/shared/styling/card.dart';
+import 'package:ankev928/shared/styling/card_autoHeight.dart';
 import 'package:ankev928/shared/styling/separator.dart';
 import 'package:ankev928/shared/styling/textstyle.dart';
 
@@ -71,7 +72,8 @@ class ActivityListView extends StatelessWidget {
           ),
           child: new Stack(
             children: <Widget>[
-              cardLayout(horizontal, activityCardContent, 154.0),
+              horizontal ?  cardLayout(horizontal, activityCardContent, 154.0) :
+              cardLayoutAutoHeight(horizontal, activityCardContent),
               //activityThumbNail,
             ],
           )),

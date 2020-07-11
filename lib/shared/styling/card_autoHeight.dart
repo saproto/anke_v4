@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-Container cardLayout(bool horizontal, Container content, double height) {
-  return  new Container(
+IntrinsicHeight cardLayoutAutoHeight(bool horizontal, Container content) {
+  return new IntrinsicHeight(
+    child: new Container(
       alignment: Alignment.centerLeft,
       child: content,
-      height: height,
       margin: horizontal
           ? new EdgeInsets.only(left: 0)
           : new EdgeInsets.only(top: 144.0),
@@ -21,5 +21,6 @@ Container cardLayout(bool horizontal, Container content, double height) {
           ),
         ],
       ),
+    ),
   );
 }

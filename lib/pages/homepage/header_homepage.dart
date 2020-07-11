@@ -34,14 +34,18 @@ final headerCardContentBackGroundImage = new Container(
   decoration: BoxDecoration(
     borderRadius: new BorderRadius.circular(8.0),
     image: DecorationImage(
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.fill,
         colorFilter:
             ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.dstATop),
         image: NetworkImage(
             "https://static.saproto.com/image/3574/6f2f9ad26326657cf5847069ca92bb3a5d86e78f")),
   ),
 );
-
+//
+//BoxFit getFit(){
+//  if()
+//  return null;
+//}
 Container headerCardContent(AsyncSnapshot snap) {
   return new Container(
       child: new Padding(

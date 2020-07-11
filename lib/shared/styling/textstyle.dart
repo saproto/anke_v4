@@ -40,5 +40,9 @@ class Style {
     fontFeatures: [FontFeature.tabularFigures()]
   );
 
+  static final italicTextStyle = regularTextStyle.copyWith(
+    fontStyle: FontStyle.italic
+  );
+
   static final subHeaderTextStyle = regularTextStyle.copyWith(fontSize: 12.0);
 }

@@ -1,5 +1,6 @@
 import 'package:ankev928/models/news_article.dart';
 import 'package:ankev928/shared/styling/card.dart';
+import 'package:ankev928/shared/styling/card_autoHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,8 @@ class ArticleListView extends StatelessWidget {
           ),
           child: new Stack(
             children: <Widget>[
-              cardLayout(horizontal, articleCardContent, 130.0)
+              horizontal ? cardLayout(horizontal, articleCardContent, 130.0) :
+              cardLayoutAutoHeight(horizontal, articleCardContent)
             ],
             //activityThumbNail,
           )),

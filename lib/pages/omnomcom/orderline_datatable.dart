@@ -19,6 +19,7 @@ class OrderlineDataTable extends StatelessWidget {
                 getListOfOrderlines(snapshot.data);
             return Expanded(
               child: Container(
+
                 margin: const EdgeInsets.only(bottom: 16.0),
                 child: Container(
                     margin: const EdgeInsets.symmetric(
@@ -45,7 +46,7 @@ class OrderlineDataTable extends StatelessWidget {
                               seperatedOrderlines[index], context);
                         }))));
           }
-          return Text("loading");
+          return Text("loading purchases");
         });
   }
 }
@@ -74,6 +75,7 @@ Row getDataForOneRow(Orderline orderline, BuildContext context) {
       new NumberFormat.currency(locale: "en_US", symbol: "€");
   final widthColumns = MediaQuery.of(context).size.width / 6;
   return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Flexible(

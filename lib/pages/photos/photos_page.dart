@@ -1,6 +1,7 @@
 import 'package:ankev928/models/photo_album.dart';
 import 'package:ankev928/pages/photos/photo_scroll_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/pages/photos/get_photos_in_album.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -16,14 +17,12 @@ class PhotoPage extends StatefulWidget {
 
 class _PhotoPage extends State<PhotoPage> {
   PhotoAlbum _photoAlbum;
-
   _PhotoPage(this._photoAlbum);
 
   @override
   void initState() {
     super.initState();
     _photoAlbum = widget._photoAlbum;
-    print("joi");
   }
 
   @override
@@ -33,7 +32,7 @@ class _PhotoPage extends State<PhotoPage> {
           title: Text(_photoAlbum.name),
         ),
         body: FutureBuilder(
-            future: getPhotosInAlbum(_photoAlbum.id),
+            future:  getPhotosInAlbum(_photoAlbum.id),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data != null) {
                 return new StaggeredGridView.countBuilder(
@@ -78,12 +77,9 @@ class _Tile extends StatelessWidget {
               children: <Widget>[
                 new Center(
                   child:
-//                new CachedNetworkImage(
-//        imageUrl: photo.photoURL,
-//        placeholder: (context, url) => CircularProgressIndicator(),   ),
                   new FadeInImage.assetNetwork(
                       placeholder: 'assets/img/loading.gif',
-                      image: photos[index].photoURL),
+                      image: photos[index].photoURL,),
                 )
               ],
             )

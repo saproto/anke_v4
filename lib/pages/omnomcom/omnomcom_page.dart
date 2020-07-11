@@ -44,17 +44,8 @@ class _OmnomcomPage extends State<OmnomcomPage> {
               );
             } else {
               return new Center(
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Text("op omnomcompage"),
-                RaisedButton(
-                  child: const Text("go to QRScanner"),
-                  onPressed: (() {
-                    //Navigator.pop(context);
-                    Navigator.of(context).pushNamed('/qrscanner');
-                  }),
-                )
-              ]));
+                child: Text("Loading omnomcom"),
+              );
             }
           },
         ),
