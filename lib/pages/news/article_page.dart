@@ -1,4 +1,4 @@
-import 'package:ankev928/pages/news/article_list_view.dart';
+import 'package:ankev928/pages/news/article_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

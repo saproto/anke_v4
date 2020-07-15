@@ -13,14 +13,38 @@ Future<bool> checkForCredentials() async {
   return availableToken != null;
 }
 
-Future<dynamic> requestApiCallResult(String urlExtension,
+Future<dynamic> doApiGetRequest(String urlExtension,
     {bool noAuthPresentOk = false}) async {
   Map<String, String> headers = {'Accept': 'application/json'};
   http.Response resp = await _getHelper()
       .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
 //  print(resp);
+
   dynamic info = jsonDecode(resp.body);
   return info;
+}
+
+Future<dynamic> doApiPostRequest(String urlExtension, Map<String, String> data,
+    {bool noAuthPresentOk = false}) async {
+  String encodedData = getEncodeData(data);
+  Map<String, String> headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+  http.Response resp = await _getHelper().post(
+      oauthCredentials['baseurl'] + urlExtension,
+      headers: headers,
+      body: encodedData);
+  dynamic info = jsonDecode(resp.body);
+  return info;
+}
+
+String getEncodeData(Map<String, String> data) {
+  List<String> stringData = [];
+  data.forEach((key, value) {
+    stringData.add('$key=$value');
+  });
+  return stringData.join('&');
 }
 
 Future<dynamic> revokeTokens() async {

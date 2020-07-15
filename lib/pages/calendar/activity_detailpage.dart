@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 
 import 'package:ankev928/models/activity.dart';
 
-import 'package:ankev928/pages/calendar/activity_list_view.dart';
+import 'package:ankev928/pages/calendar/activity_list_tile.dart';
 
 
 import 'package:ankev928/shared/styling/textstyle.dart';
@@ -53,9 +53,12 @@ class ActivityDetailPage extends StatelessWidget {
     }
 
     Text _hasNoShowFeeTextField(Activity activity) {
+      final formatCurrency =
+      new NumberFormat.currency(locale: "en_US", symbol: "€");
+
       if (activity.noShowFee != 0) {
         return new Text(
-          "Not showing up can cost you: €" + activity.noShowFee.toString(),
+          "Not showing up can cost you: ${formatCurrency.format(activity.noShowFee.toString())}",
           style: Style.commonTextStyleGreyColor,
         );
       }
@@ -64,7 +67,7 @@ class ActivityDetailPage extends StatelessWidget {
 
     Future<void> _signUp(Activity activity, bool isBackUp) async {
       try {
-        var signUpRequest = await requestApiCallResult(
+        var signUpRequest = await doApiGetRequest(
             'events/signup/' + activity.id.toString());
         var decodedSignUpRequest = jsonDecode(signUpRequest["message"]);
         if (decodedSignUpRequest.containsKey("participation_id")) {
@@ -88,7 +91,7 @@ class ActivityDetailPage extends StatelessWidget {
 
     Future<void> _signOut(Activity activity) async {
       try {
-        Map<String, dynamic> signOutRequest = await requestApiCallResult(
+        Map<String, dynamic> signOutRequest = await doApiGetRequest(
             'events/signout/' + activity.userSingUpId.toString());
         var decodedSignOutRequest = jsonDecode(signOutRequest["message"]);
         if (decodedSignOutRequest['success']) {
@@ -185,6 +188,9 @@ class ActivityDetailPage extends StatelessWidget {
     }
 
     Column _hasSignUp(Activity activity) {
+      final formatCurrency =
+      new NumberFormat.currency(locale: "en_US", symbol: "€");
+
       if (activity.hasSignUp) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +204,7 @@ class ActivityDetailPage extends StatelessWidget {
               _userSignedUpTextField(activity),
               new Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
               new Text(
-                "Activity Cost: €" + activity.price.toString(),
+                "Activity Cost: ${formatCurrency.format(activity.price.toString())}",
                 style: Style.commonTextStyleGreyColor,
               ),
               _hasNoShowFeeTextField(activity),
@@ -264,7 +270,7 @@ class ActivityDetailPage extends StatelessWidget {
           getGradient(context),
           new Column(
             children: <Widget>[
-              new ActivityListView(_activity, horizontal: false),
+              new ActivityListTile(_activity, horizontal: false),
               new Container(
                 padding: new EdgeInsets.symmetric(horizontal: 32.0),
                 child: new Column(

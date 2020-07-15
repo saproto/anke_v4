@@ -3,7 +3,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<PhotoAlbumWithPhotos> getPhotosInAlbum(int id) async {
   Map<String, dynamic> photoAlbumPhotos =
-      await requestApiCallResult('photos/photos_api/' + id.toString());
+      await doApiGetRequest('photos/photos_api/' + id.toString());
   List<Photo> photos = [];
   for (int i = 0; i < photoAlbumPhotos["photos"].length; i++) {
     dynamic photo = photoAlbumPhotos["photos"][i];

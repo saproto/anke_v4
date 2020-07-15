@@ -9,6 +9,7 @@ import 'package:ankev928/pages/homepage/homepage.dart';
 import 'package:ankev928/pages/login.dart';
 import 'package:ankev928/pages/loading_page.dart';
 import 'package:ankev928/pages/news/news_page.dart';
+import 'package:ankev928/pages/quote/add_quote_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,8 +18,6 @@ class RouteGenerator {
     switch (settings.name) { 
       case '/':
         return MaterialPageRoute(builder: (_) => LoadingPage());
-      case '/profile':
-        return MaterialPageRoute(builder: (_) => HomePage());
       case '/home':
         return MaterialPageRoute(builder: (_) => HomePage());
       case '/calendar':
@@ -37,6 +36,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => PhotoAlbumsPage());
       case '/quote':
         return MaterialPageRoute(builder: (_) => QuoteCornerPage());
+      case '/addQuote':
+        return MaterialPageRoute(builder: (_) => AddQuotePage());
       default:
         return _errorRoute("unkonw route");
     }

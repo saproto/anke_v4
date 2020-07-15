@@ -46,7 +46,7 @@ String getFormatDate(DateTime date){
 }
 
 Future<InformationAlfred> _getInformationOnAlfred() async {
-  var _infoOnAlfred = await requestApiCallResult('isalfredthere');
+  var _infoOnAlfred = await doApiGetRequest('isalfredthere');
   DateTime dateBack;
   if (_infoOnAlfred["back"] != null) {
     dateBack =

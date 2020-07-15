@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:ankev928/pages/calendar/activity_list_view.dart';
+import 'package:ankev928/pages/calendar/activity_list_tile.dart';
 import 'package:ankev928/services/activity_list_service.dart';
 
 import 'package:ankev928/shared/helpers/functions.dart';
@@ -47,13 +47,13 @@ class CalendarMyActivitiesViewPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   attending.length > 0 ? getTitle("Participating") : null,
-                  ...attending.map((event) => ActivityListView(event)),
+                  ...attending.map((event) => ActivityListTile(event)),
                   organizing.length > 0 ? getTitle("Organizing") : null,
-                  ...organizing.map((event) => ActivityListView(event)),
+                  ...organizing.map((event) => ActivityListTile(event)),
                   helping.length > 0 ? getTitle("Helping") : null,
-                  ...helping.map((event) => ActivityListView(event)),
+                  ...helping.map((event) => ActivityListTile(event)),
                   isBackUp.length > 0 ? getTitle("On backup list") : null,
-                  ...isBackUp.map((event) => ActivityListView(event)),
+                  ...isBackUp.map((event) => ActivityListTile(event)),
                 ].where(notNull).toList(),
               );
             }

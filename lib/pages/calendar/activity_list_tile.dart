@@ -11,12 +11,12 @@ import 'package:intl/intl.dart';
 
 import 'package:ankev928/pages/calendar/activity_detailpage.dart';
 
-class ActivityListView extends StatelessWidget {
+class ActivityListTile extends StatelessWidget {
   final Activity activity;
   final bool horizontal;
 
-  ActivityListView(this.activity, {this.horizontal = true});
-  ActivityListView.vertical(this.activity) : horizontal = false;
+  ActivityListTile(this.activity, {this.horizontal = true});
+  ActivityListTile.vertical(this.activity) : horizontal = false;
 
   @override
   Widget build(BuildContext context) {

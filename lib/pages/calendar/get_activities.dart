@@ -3,7 +3,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<List<Activity>> getActivities() async {
   List<dynamic> calenderInfo =
-  await requestApiCallResult('events/upcoming/for_user');
+  await doApiGetRequest('events/upcoming/for_user');
   List<Activity> activities = [];
   for (var i in calenderInfo) {
     DateTime startSignup;

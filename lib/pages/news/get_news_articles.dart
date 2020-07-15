@@ -3,7 +3,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<List<NewsArticle>> getNewsArticles() async {
   List<dynamic> articleInfo =
-  await requestApiCallResult('news');
+  await doApiGetRequest('news');
   List<NewsArticle> articles = [];
   for (var i in articleInfo) {
     DateTime publishDate = DateTime.fromMillisecondsSinceEpoch(i["published_at"] * 1000);

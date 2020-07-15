@@ -1,5 +1,3 @@
-import 'package:ankev928/models/orderline.dart';
-import 'package:ankev928/pages/omnomcom/getOrderlines.dart';
 import 'package:ankev928/pages/omnomcom/orderline_datatable.dart';
 import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:ankev928/shared/styling/card.dart';
@@ -63,8 +61,8 @@ class _OmnomcomPage extends State<OmnomcomPage> {
 
 Future<List<dynamic>> _getTotals() async {
   var _nextWithdrawal =
-      await requestApiCallResult('user/orders/next_withdrawal');
-  var _totalThisMonth = await requestApiCallResult('user/orders/total_month');
+      await doApiGetRequest('user/orders/next_withdrawal');
+  var _totalThisMonth = await doApiGetRequest('user/orders/total_month');
 
   return [_nextWithdrawal, _totalThisMonth];
 }

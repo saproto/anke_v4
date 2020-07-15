@@ -57,7 +57,7 @@ class _LoadingPageState extends State<LoadingPage> {
     bool hasCredentials = await checkForCredentials();
 
     if (hasCredentials) {
-      Map<String, dynamic> userInfo = await requestApiCallResult('user/info');
+      Map<String, dynamic> userInfo = await doApiGetRequest('user/info');
       _userInfoService.updateFromJson(userInfo);
     } else {
       _userInfoService.resetAndWriteToSharedPrefs();

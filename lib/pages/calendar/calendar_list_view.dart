@@ -1,4 +1,4 @@
-import 'package:ankev928/pages/calendar/activity_list_view.dart';
+import 'package:ankev928/pages/calendar/activity_list_tile.dart';
 import 'package:ankev928/services/activity_list_service.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class CalendarListViewPage extends StatelessWidget{
               itemCount: getLengthOfData(snapshot),
               itemBuilder: (BuildContext context, int index){
                 print("hallo");
-                return new ActivityListView(snapshot.data[index]);
+                return new ActivityListTile(snapshot.data[index]);
               }
           );
         },

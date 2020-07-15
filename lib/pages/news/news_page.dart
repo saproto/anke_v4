@@ -1,5 +1,5 @@
 
-import 'package:ankev928/pages/news/article_list_view.dart';
+import 'package:ankev928/pages/news/article_list_tile.dart';
 import 'package:ankev928/services/news_article_list_service.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';

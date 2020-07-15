@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:table_calendar/table_calendar.dart';
-import 'package:ankev928/pages/calendar/activity_list_view.dart';
+import 'package:ankev928/pages/calendar/activity_list_tile.dart';
 import 'package:get_it/get_it.dart';
 
 
@@ -93,7 +93,7 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
                               child: Text( date.day.toString(), style: usedTextStyle(Colors.white)))
                   ),
                 ),
-                ..._selectedEvents.map((event) => ActivityListView(event)
+                ..._selectedEvents.map((event) => ActivityListTile(event)
                 ),
               ],
             );

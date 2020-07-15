@@ -5,7 +5,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<List<PhotoAlbum>> getPhotoAlbums() async {
   List<dynamic> photoAlbumsInfo =
-  await requestApiCallResult('photos/photos_api');
+  await doApiGetRequest('photos/photos_api');
   List<PhotoAlbum> photoAlbums = [];
   for (var i in photoAlbumsInfo) {
     DateTime photoAlbumDate;

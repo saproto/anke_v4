@@ -4,7 +4,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:intl/intl.dart';
 
 Future<List<Orderline>> getOrders() async{
-  var _orders = await  await requestApiCallResult('user/orders');
+  var _orders = await  await doApiGetRequest('user/orders');
   
   List<Orderline> orderlines = [];
   

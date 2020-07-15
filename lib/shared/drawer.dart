@@ -10,44 +10,9 @@ class DefaultDrawer extends StatefulWidget {
 }
 
 class _DefaultDrawer extends State<DefaultDrawer> {
-  bool _showAccountMenu = false;
   final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
-  void _toggleAccountMenu() {
-    setState(() {
-      _showAccountMenu = !_showAccountMenu;
-    });
-  }
 
-//  List menuItems= [
-//    {
-//      'icon':Icon(Icons.home),
-//      'Name': 'Home',
-//      'route':'/home',
-//    },
-//    {
-//      'icon':Icon(Icons.calendar_today),
-//      'Name': 'Calendar',
-//      'route':'/calendar',
-//    },{
-//      'icon':FaIcon(FontAwesomeIcons.newspaper),
-//      'Name': 'News',
-//      'route':'/news',
-//    },{
-//      'icon':FaIcon(FontAwesomeIcons.cookieBite),
-//      'Name': 'Omnomcom',
-//      'route':'/omnomcom',
-//    },{
-//      'icon':FaIcon(FontAwesomeIcons.camera),
-//      'Name': 'Photos',
-//      'route':'/photos',
-//    },
-//    {
-//      'icon':FaIcon(FontAwesomeIcons.comments),
-//      'Name': 'Quote Corner',
-//      'route':'/quote',
-//    },
-//  ];
   @override
   Widget build(BuildContext context) {
     return new Drawer(
@@ -61,23 +26,6 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                   accountName: getName(snap),
                   accountEmail: getEmail(snap),
                   currentAccountPicture: _getPhotoThumbnail(snap),
-                  onDetailsPressed: () {
-                    _toggleAccountMenu();
-                  },
-                ),
-                Visibility(
-                  visible: _showAccountMenu,
-                  child: new Container(
-                    decoration:
-                        BoxDecoration(color: Theme.of(context).primaryColor),
-                    child: ListTile(
-                      leading: Icon(Icons.home),
-                      title: Text('Profile'),
-                      onTap: () {
-                        _navigateTo('/profile', context);
-                      },
-                    ),
-                  ),
                 ),
                 ListTile(
                   leading: Icon(Icons.home),
@@ -174,7 +122,7 @@ class _DefaultDrawer extends State<DefaultDrawer> {
   }
 
   CircleAvatar _getPhotoThumbnail(AsyncSnapshot snap) {
-  //  dynamic isLoggedIn =
+
     if (snap.data != null && snap.data.isLoggedIn == true) {
       return new CircleAvatar(
           backgroundImage:
