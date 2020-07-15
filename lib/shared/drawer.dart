@@ -70,6 +70,13 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                   },
                 ),
                 ListTile(
+                  leading: FaIcon(FontAwesomeIcons.users),
+                  title: Text('Committees'),
+                  onTap: () {
+                    _navigateTo('/committees', context);
+                  },
+                ),
+                ListTile(
                   leading: _getIconLoginLogout(snap),
                   title: Text(_checkLoginLogout(snap)),
                   onTap: () {

@@ -44,5 +44,8 @@ class Style {
     fontStyle: FontStyle.italic
   );
 
-  static final subHeaderTextStyle = regularTextStyle.copyWith(fontSize: 12.0);
+  static final subHeaderTextStyle = headerTextStyle.copyWith(
+    fontSize: 16.0,
+      fontWeight: FontWeight.w300,
+  );
 }

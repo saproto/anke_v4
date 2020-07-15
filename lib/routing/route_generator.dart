@@ -1,4 +1,5 @@
 import 'package:ankev928/pages/calendar/calendar.dart';
+import 'package:ankev928/pages/committees/committees_page.dart';
 import 'package:ankev928/pages/logout.dart';
 import 'package:ankev928/pages/omnomcom/omnomcom_page.dart';
 import 'package:ankev928/pages/photos/photo_albums_page.dart';
@@ -38,6 +39,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => QuoteCornerPage());
       case '/addQuote':
         return MaterialPageRoute(builder: (_) => AddQuotePage());
+      case '/committees':
+        return MaterialPageRoute(builder: (_) => CommitteesPage());
       default:
         return _errorRoute("unkonw route");
     }
