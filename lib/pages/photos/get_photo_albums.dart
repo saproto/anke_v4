@@ -3,9 +3,10 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 
 
-Future<List<PhotoAlbum>> getPhotoAlbums() async {
+Future<List<PhotoAlbum>> getPhotoAlbums(String url,
+    {noAuthPresentOk = false}) async {
   List<dynamic> photoAlbumsInfo =
-  await doApiGetRequest('photos/photos_api');
+  await doApiGetRequestAuthenticate(url, noAuthPresentOk: noAuthPresentOk);
   List<PhotoAlbum> photoAlbums = [];
   for (var i in photoAlbumsInfo) {
     DateTime photoAlbumDate;

@@ -2,6 +2,7 @@ import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ankev928/shared/helpers/functions.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -24,7 +25,7 @@ class _DefaultDrawer extends State<DefaultDrawer> {
               children: [
                 UserAccountsDrawerHeader(
                   accountName: getName(snap),
-                  accountEmail: getEmail(snap),
+                  accountEmail: getWelcomeMessage(snap),
                   currentAccountPicture: _getPhotoThumbnail(snap),
                 ),
                 ListTile(
@@ -48,13 +49,8 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                     _navigateTo('/news', context);
                   },
                 ),
-                ListTile(
-                  leading: FaIcon(FontAwesomeIcons.cookieBite),
-                  title: Text('Omnomcom'),
-                  onTap: () {
-                    _navigateTo('/omnomcom', context);
-                  },
-                ),
+                getMenuItemsForLogIn(snap, 'Omnomcom', FaIcon(FontAwesomeIcons.cookieBite), '/omnomcom'),
+
                 ListTile(
                   leading: FaIcon(FontAwesomeIcons.camera),
                   title: Text('Photos'),
@@ -62,13 +58,7 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                     _navigateTo('/photos', context);
                   },
                 ),
-                ListTile(
-                  leading: FaIcon(FontAwesomeIcons.comments),
-                  title: Text('Quote Corner'),
-                  onTap: () {
-                    _navigateTo('/quote', context);
-                  },
-                ),
+                getMenuItemsForLogIn(snap, 'Quote Corner', FaIcon(FontAwesomeIcons.comments), '/quote'),
                 ListTile(
                   leading: FaIcon(FontAwesomeIcons.users),
                   title: Text('Committees'),
@@ -83,25 +73,36 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                     _navigateTo('/' + _checkLoginLogout(snap), context);
                   },
                 ),
-              ],
+              ].where(notNull).toList(),
             );
           }),
 //
     );
   }
 
+  ListTile getMenuItemsForLogIn(AsyncSnapshot snap, String title, FaIcon icon, String route){
+    if(snap.hasData && snap.data.isLoggedIn){
+      return    ListTile(
+        leading: icon,
+        title: Text(title),
+        onTap: () {
+          _navigateTo(route, context);
+        },
+      );
+    }else return null;
+  }
 
   Text getName(AsyncSnapshot snap){
-    if(snap.data != null){
-      return new Text(snap.data.displayName );
+    if(snap.hasData && snap.data.isLoggedIn){
+      return new Text(snap.data.displayName);
     } else {
       return new Text('Not logged in');
     }
   }
 
-  Text getEmail(AsyncSnapshot snap){
-    if(snap.data != null){
-      return new Text(snap.data.email );
+  Text getWelcomeMessage(AsyncSnapshot snap){
+    if(snap.hasData && snap.data.isLoggedIn){
+      return new Text(snap.data.welcomeMessage);
     } else {
       return new Text('');
     }

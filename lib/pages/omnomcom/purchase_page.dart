@@ -41,7 +41,7 @@ class _PurchasePage extends State<PurchasePage> {
 
   Future<void> getInfo(String qrString) async {
     String linkToApi = 'user/qr_auth_info/' + getToken(qrString);
-    qrInfo = await doApiGetRequest(linkToApi);
+    qrInfo = await doApiGetRequestAuthenticate(linkToApi);
     if (qrInfo != null) {
       setState(() {});
     }
@@ -66,7 +66,7 @@ class _PurchasePage extends State<PurchasePage> {
 
   Future<void> _payOmnomcom() async {
     String linkToApi = "user/qr_auth_approve/" + getToken(_qrText);
-    var qrPayment = await doApiGetRequest(linkToApi);
+    var qrPayment = await doApiGetRequestAuthenticate(linkToApi);
     if (qrPayment != null) {
       if (qrPayment["status"] == "ok") {
         Navigator.pop(context);

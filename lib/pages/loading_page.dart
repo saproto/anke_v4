@@ -6,7 +6,6 @@ import 'package:ankev928/services/news_article_list_service.dart';
 import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:get_it/get_it.dart';
 import 'package:ankev928/services/user_info_service.dart';
 
@@ -24,19 +23,18 @@ class LoadingPage extends StatefulWidget {
 
 class _LoadingPageState extends State<LoadingPage> {
   final UserInfoService _userInfoService = getIt.get<UserInfoService>();
-  final NewsArticleListService _newsArticleListService = getIt.get<NewsArticleListService>();
-  final ActivityListService _activityListService = getIt.get<ActivityListService>();
-
-
+  final NewsArticleListService _newsArticleListService =
+      getIt.get<NewsArticleListService>();
+  final ActivityListService _activityListService =
+      getIt.get<ActivityListService>();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_){
-          checkCredentials(_userInfoService);
-          getCurrentNewsArticles();
-          getCurrentActivities();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkCredentials(_userInfoService);
+      getCurrentNewsArticles();
+      getCurrentActivities();
     });
   }
 
@@ -54,11 +52,15 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   void checkCredentials(UserInfoService _userInfoService) async {
-    bool hasCredentials = await checkForCredentials();
-
-    if (hasCredentials) {
-      Map<String, dynamic> userInfo = await doApiGetRequest('user/info');
-      _userInfoService.updateFromJson(userInfo);
+    if (_userInfoService.current.isLoggedIn) {
+      bool hasCredentials = await checkForCredentials();
+      if (hasCredentials) {
+        Map<String, dynamic> userInfo =
+            await doApiGetRequestAuthenticate('user/info');
+        _userInfoService.updateFromJson(userInfo);
+      } else {
+        _userInfoService.resetAndWriteToSharedPrefs();
+      }
     } else {
       _userInfoService.resetAndWriteToSharedPrefs();
     }
@@ -72,9 +74,15 @@ class _LoadingPageState extends State<LoadingPage> {
     _newsArticleListService.update(_currentNewsArticles);
   }
 
-  void getCurrentActivities() async{
-    List<Activity> _currentActivities = await getActivities();
+  void getCurrentActivities() async {
+    List<Activity> _currentActivities;
+    if (_userInfoService.current.isLoggedIn) {
+      _currentActivities =
+          await getActivities('events/upcoming/for_user', false);
+    } else {
+      _currentActivities = await getActivities('events/upcoming', true);
+    }
+
     _activityListService.update(_currentActivities);
-    print("after update");
   }
 }

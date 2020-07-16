@@ -61,8 +61,8 @@ class _OmnomcomPage extends State<OmnomcomPage> {
 
 Future<List<dynamic>> _getTotals() async {
   var _nextWithdrawal =
-      await doApiGetRequest('user/orders/next_withdrawal');
-  var _totalThisMonth = await doApiGetRequest('user/orders/total_month');
+      await doApiGetRequestAuthenticate('user/orders/next_withdrawal');
+  var _totalThisMonth = await doApiGetRequestAuthenticate('user/orders/total_month');
 
   return [_nextWithdrawal, _totalThisMonth];
 }

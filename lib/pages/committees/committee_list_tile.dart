@@ -16,10 +16,11 @@ import 'package:intl/intl.dart';
 class CommitteeListTile extends StatelessWidget {
   final Committee _committee;
   final bool horizontal;
+  final bool userIsLoggedIn;
 
-  CommitteeListTile(this._committee, {this.horizontal = true});
+  CommitteeListTile(this._committee, {this.userIsLoggedIn, this.horizontal = true});
 
-  CommitteeListTile.vertical(this._committee) : horizontal = false;
+  CommitteeListTile.vertical(this._committee, this.userIsLoggedIn) : horizontal = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class CommitteeListTile extends StatelessWidget {
     return new GestureDetector(
       onTap: horizontal
           ? () => Navigator.of(context).push(new PageRouteBuilder(
-        pageBuilder: (_, __, ___) => new CommitteePage(_committee)),
+        pageBuilder: (_, __, ___) => new CommitteePage(_committee,  userIsLoggedIn)),
       )
           : null,
       child: new Container(

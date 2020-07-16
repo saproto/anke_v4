@@ -1,3 +1,4 @@
+import 'package:ankev928/services/user_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,52 +14,79 @@ GetIt getIt = GetIt.instance;
 
 class CalendarMyActivitiesViewPage extends StatelessWidget {
   final ActivityListService _activityListService =
-      getIt.get<ActivityListService>();
+  getIt.get<ActivityListService>();
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-        child: StreamBuilder(
-          stream: _activityListService.stream$,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            List<Activity> attending = attendingActivities(snapshot);
-            List<Activity> organizing = organizingActivities(snapshot);
-            List<Activity> helping = helpingActivities(snapshot);
-            List<Activity> isBackUp = isBackUpActivities(snapshot);
-            if (attending.length == 0 &&
-                organizing.length == 0 &&
-                helping.length == 0) {
-              return new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Padding(
-                      padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
-                      child: Text(
-                        "You are not going to any activities.",
-                        style: Style.headerTextStyle,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ]);
-            } else {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  attending.length > 0 ? getTitle("Participating") : null,
-                  ...attending.map((event) => ActivityListTile(event)),
-                  organizing.length > 0 ? getTitle("Organizing") : null,
-                  ...organizing.map((event) => ActivityListTile(event)),
-                  helping.length > 0 ? getTitle("Helping") : null,
-                  ...helping.map((event) => ActivityListTile(event)),
-                  isBackUp.length > 0 ? getTitle("On backup list") : null,
-                  ...isBackUp.map((event) => ActivityListTile(event)),
-                ].where(notNull).toList(),
-              );
-            }
-          },
-        ),
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+          child: StreamBuilder(
+            stream: _userInfoService.stream$,
+            builder: (BuildContext context, AsyncSnapshot snap) {
+              if(snap.hasData) {
+                if(snap.data.isLoggedIn) {
+                  return StreamBuilder(
+                    stream: _activityListService.stream$,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      List<Activity> attending = attendingActivities(snapshot);
+                      List<Activity> organizing = organizingActivities(
+                          snapshot);
+                      List<Activity> helping = helpingActivities(snapshot);
+                      List<Activity> isBackUp = isBackUpActivities(snapshot);
+                      if (attending.length == 0 &&
+                          organizing.length == 0 &&
+                          helping.length == 0) {
+                        return new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Padding(
+                                padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
+                                child: Text(
+                                  "You are not going to any activities.",
+                                  style: Style.headerTextStyle,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ]);
+                      } else {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            attending.length > 0
+                                ? getTitle("Participating")
+                                : null,
+                            ...attending.map((event) =>
+                                ActivityListTile(event)),
+                            organizing.length > 0
+                                ? getTitle("Organizing")
+                                : null,
+                            ...organizing.map((event) =>
+                                ActivityListTile(event)),
+                            helping.length > 0 ? getTitle("Helping") : null,
+                            ...helping.map((event) => ActivityListTile(event)),
+                            isBackUp.length > 0
+                                ? getTitle("On backup list")
+                                : null,
+                            ...isBackUp.map((event) => ActivityListTile(event)),
+                          ].where(notNull).toList(),
+                        );
+                      }
+                    },
+                  );
+                } else {
+                  return new Center(
+                    child: Text("Sorry you are not logged in, pleas log in to use this function"),
+                  );
+                }
+              } else {
+                return new Center(
+                  child: Text("Loading activities"),
+                );
+              }
+            },
+          )
       ),
     );
   }

@@ -8,21 +8,36 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class PhotoPage extends StatefulWidget {
   final PhotoAlbum _photoAlbum;
-
-  PhotoPage(this._photoAlbum);
+final bool isUserLoggedIn;
+  PhotoPage(this._photoAlbum, this.isUserLoggedIn);
 
   @override
-  _PhotoPage createState() => _PhotoPage(this._photoAlbum);
+  _PhotoPage createState() => _PhotoPage(this._photoAlbum, this.isUserLoggedIn);
 }
 
 class _PhotoPage extends State<PhotoPage> {
   PhotoAlbum _photoAlbum;
-  _PhotoPage(this._photoAlbum);
+  final bool isUserLoggedIn;
+  _PhotoPage(this._photoAlbum, this.isUserLoggedIn);
+
 
   @override
   void initState() {
     super.initState();
     _photoAlbum = widget._photoAlbum;
+
+  }
+
+  Future<PhotoAlbumWithPhotos> getPhotoAlbumList(){
+    Future<PhotoAlbumWithPhotos> photoInAlbumList;
+
+    if(isUserLoggedIn){
+      photoInAlbumList = getPhotosInAlbum(_photoAlbum.id,'photos/photos_api/' );
+    } else{
+      photoInAlbumList = getPhotosInAlbum(_photoAlbum.id, 'photos/photos/', noAuthPresentOk: true);
+    }
+
+    return photoInAlbumList;
   }
 
   @override
@@ -32,7 +47,7 @@ class _PhotoPage extends State<PhotoPage> {
           title: Text(_photoAlbum.name),
         ),
         body: FutureBuilder(
-            future:  getPhotosInAlbum(_photoAlbum.id),
+            future:  getPhotoAlbumList(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data != null) {
                 return new StaggeredGridView.countBuilder(

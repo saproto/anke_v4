@@ -27,7 +27,7 @@ dependencies:
   table_calendar: ^2.2.1
   markdown: ^2.1.5
   flutter_markdown: ^0.3.4
-  url_launcher: ^5.4.10
+  url_launcher: 5.5.0
   font_awesome_flutter:
   qr_code_scanner:
   flutter_webview_plugin:

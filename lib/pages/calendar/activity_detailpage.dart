@@ -5,11 +5,9 @@ import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:get_it/get_it.dart';
 
-
 import 'package:ankev928/models/activity.dart';
 
 import 'package:ankev928/pages/calendar/activity_list_tile.dart';
-
 
 import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:ankev928/shared/helpers/functions.dart';
@@ -34,27 +32,29 @@ class ActivityDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Text _userSignedUpTextField(Activity activity) {
-      if (activity.userHasSignedUp) {
-        return new Text(
-          "You are signed up",
-          style: Style.commonTextStyleGreyColor,
-        );
-      } else if (activity.userHasSignedUpBackUp) {
-        return new Text(
-          "You are placed on the back-up list",
-          style: Style.commonTextStyleGreyColor,
-        );
-      } else {
-        return new Text(
-          "You are not signed up for this activity",
-          style: Style.commonTextStyleGreyColor,
-        );
-      }
+      if (_userInfoService.current.isLoggedIn) {
+        if (activity.userHasSignedUp) {
+          return new Text(
+            "You are signed up",
+            style: Style.commonTextStyleGreyColor,
+          );
+        } else if (activity.userHasSignedUpBackUp) {
+          return new Text(
+            "You are placed on the back-up list",
+            style: Style.commonTextStyleGreyColor,
+          );
+        } else {
+          return new Text(
+            "You are not signed up for this activity",
+            style: Style.commonTextStyleGreyColor,
+          );
+        }
+      } else return null;
     }
 
     Text _hasNoShowFeeTextField(Activity activity) {
       final formatCurrency =
-      new NumberFormat.currency(locale: "en_US", symbol: "€");
+          new NumberFormat.currency(locale: "en_US", symbol: "€");
 
       if (activity.noShowFee != 0) {
         return new Text(
@@ -67,7 +67,7 @@ class ActivityDetailPage extends StatelessWidget {
 
     Future<void> _signUp(Activity activity, bool isBackUp) async {
       try {
-        var signUpRequest = await doApiGetRequest(
+        var signUpRequest = await doApiGetRequestAuthenticate(
             'events/signup/' + activity.id.toString());
         var decodedSignUpRequest = jsonDecode(signUpRequest["message"]);
         if (decodedSignUpRequest.containsKey("participation_id")) {
@@ -91,7 +91,7 @@ class ActivityDetailPage extends StatelessWidget {
 
     Future<void> _signOut(Activity activity) async {
       try {
-        Map<String, dynamic> signOutRequest = await doApiGetRequest(
+        Map<String, dynamic> signOutRequest = await doApiGetRequestAuthenticate(
             'events/signout/' + activity.userSingUpId.toString());
         var decodedSignOutRequest = jsonDecode(signOutRequest["message"]);
         if (decodedSignOutRequest['success']) {
@@ -178,20 +178,19 @@ class ActivityDetailPage extends StatelessWidget {
           activity.endSignout == null) {
         return null;
       } else {
-        String startSignup = formatDate.format(activity.startSignup);
-        String endSignup = formatDate.format(activity.endSignup);
+        String startSignUp = formatDate.format(activity.startSignup);
+        String endSignUp = formatDate.format(activity.endSignup);
         String endSignOut = formatDate.format(activity.endSignout);
         return new Text(
-            "Sign up opens at: $startSignup \nand closes at: $endSignup \n"
+            "Sign up opens at: $startSignUp \nand closes at: $endSignUp \n"
             "It is possible to sign out till: $endSignOut");
       }
     }
 
     Column _hasSignUp(Activity activity) {
       final formatCurrency =
-      new NumberFormat.currency(locale: "en_US", symbol: "€");
-
-      if (activity.hasSignUp) {
+          new NumberFormat.currency(locale: "en_US", symbol: "€");
+      if (_userInfoService.current.isLoggedIn && activity.hasSignUp) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -204,7 +203,7 @@ class ActivityDetailPage extends StatelessWidget {
               _userSignedUpTextField(activity),
               new Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
               new Text(
-                "Activity Cost: ${formatCurrency.format(activity.price.toString())}",
+                "Activity Cost: ${formatCurrency.format(activity.price)}",
                 style: Style.commonTextStyleGreyColor,
               ),
               _hasNoShowFeeTextField(activity),
@@ -237,7 +236,7 @@ class ActivityDetailPage extends StatelessWidget {
     }
 
     Column _getParticipants(List<dynamic> participants, String title) {
-      if (participants != null && participants.length != 0) {
+      if (_userInfoService.current.isLoggedIn && participants != null && participants.length != 0) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -253,16 +252,7 @@ class ActivityDetailPage extends StatelessWidget {
       return null;
     }
 
-//    _launchURL(url) async {
-//      if (await urlLauncher.canLaunch(url)) {
-//        await urlLauncher.launch(url);
-//      } else {
-//        _scaffoldKey.currentState.showSnackBar(SnackBar(
-//          content: Text("Something went wrong. Could not launch $url."),
-//        ));
-//      }
-//    }
-    Stack _getContentStack (Activity _activity) {
+    Stack _getContentStack(Activity _activity) {
       final _overwiewTitle = "Description".toUpperCase();
       return new Stack(
         children: <Widget>[
@@ -305,8 +295,8 @@ class ActivityDetailPage extends StatelessWidget {
               stream: _activityListService.stream$,
               builder: (BuildContext context, AsyncSnapshot snap) {
                 if (snap.data != null) {
-                  Activity _activity =
-                  ActivityListService.getActivityById(snap.data, _activityID);
+                  Activity _activity = ActivityListService.getActivityById(
+                      snap.data, _activityID);
                   return _getContentStack(_activity);
                 } else {
                   return Center(
@@ -327,8 +317,6 @@ class ActivityDetailPage extends StatelessWidget {
         ],
       );
     }
-
-
 
     return new Scaffold(
         key: _scaffoldKey,

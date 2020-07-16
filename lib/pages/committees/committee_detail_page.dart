@@ -5,13 +5,15 @@ import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ankev928/shared/helpers/functions.dart';
 
 import 'package:ankev928/shared/styling/shared_detailpage.dart';
 
 class CommitteePage extends StatelessWidget {
   final Committee _committee;
+  final bool userIsLoggedIn;
 
-  CommitteePage(this._committee);
+  CommitteePage(this._committee, this.userIsLoggedIn);
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +55,20 @@ class CommitteePage extends StatelessWidget {
     }
 
     Column _getMembers() {
-      return new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Padding(padding: EdgeInsets.all(10)),
-          Text(
-            "MEMBERS",
-            style: Style.headerTextStyle,
-          ),
-          Separator(),
-          ..._getMembersList(),
-        ],
-      );
+      if(userIsLoggedIn) {
+        return new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Padding(padding: EdgeInsets.all(10)),
+            Text(
+              "MEMBERS",
+              style: Style.headerTextStyle,
+            ),
+            Separator(),
+            ..._getMembersList(),
+          ],
+        );
+      } else return null;
     }
 
     Widget _getContent() {
@@ -89,8 +93,8 @@ class CommitteePage extends StatelessWidget {
                             Separator(),
                             Text(_committee.description),
                             _getMembers(),
-                          ]))
-                ]),
+                          ].where(notNull).toList()))
+                ],),
                 getToolbar(context)
               ]),
             )

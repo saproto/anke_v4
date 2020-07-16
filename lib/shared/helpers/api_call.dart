@@ -13,15 +13,23 @@ Future<bool> checkForCredentials() async {
   return availableToken != null;
 }
 
-Future<dynamic> doApiGetRequest(String urlExtension,
+Future<dynamic> doApiGetRequestAuthenticate(String urlExtension,
     {bool noAuthPresentOk = false}) async {
-  Map<String, String> headers = {'Accept': 'application/json'};
-  http.Response resp = await _getHelper()
-      .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
+  http.Response resp;
+  if(!noAuthPresentOk) {
+    Map<String, String> headers = {'Accept': 'application/json'};
+   resp = await _getHelper()
+        .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
 //  print(resp);
+  } else {
+    resp = await http.get(oauthCredentials['baseurl'] + urlExtension);
+  }
 
-  dynamic info = jsonDecode(resp.body);
-  return info;
+
+    dynamic info = jsonDecode(resp.body);
+    return info;
+
+
 }
 
 Future<dynamic> doApiPostRequest(String urlExtension, Map<String, String> data,

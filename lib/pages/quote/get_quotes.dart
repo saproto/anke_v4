@@ -3,7 +3,7 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:intl/intl.dart';
 int totalAmountQuotes;
 Future<List<Quote>> getQuotes(int page) async{
-  var _quotes = await  doApiGetRequest('quotes?page=$page');
+  var _quotes = await  doApiGetRequestAuthenticate('quotes?page=$page');
   List<Quote> quotes = [];
   setTotalAmountQuotes(_quotes['data']['total']);
   for(var i in _quotes["data"]["data"]){

@@ -1,27 +1,27 @@
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/shared/helpers/api_call.dart';
 
-Future<List<Activity>> getActivities() async {
+Future<List<Activity>> getActivities(String url, bool authPresent) async {
   List<dynamic> calenderInfo =
-  await doApiGetRequest('events/upcoming/for_user');
+  await doApiGetRequestAuthenticate(url, noAuthPresentOk: authPresent);
   List<Activity> activities = [];
-  for (var i in calenderInfo) {
-    DateTime startSignup;
-    DateTime endSignup;
-    DateTime endSignout;
+  for (var i in calenderInfo) {  
+    DateTime startSignUp; 
+    DateTime endSignUp; 
+    DateTime endSignOut;
     DateTime startDate = DateTime.fromMillisecondsSinceEpoch(i["start"] * 1000);
     DateTime endDate = DateTime.fromMillisecondsSinceEpoch(i["end"] * 1000);
     if (i["registration_start"] != null) {
-      startSignup =
+      startSignUp =
           DateTime.fromMillisecondsSinceEpoch(i["registration_start"] * 1000);
     }
     if (i["registration_end"] != null) {
-      endSignup =
+      endSignUp =
           DateTime.fromMillisecondsSinceEpoch(i["registration_end"] * 1000);
     }
 
     if (i["deregistration_end"] != null) {
-      endSignout =
+      endSignOut =
           DateTime.fromMillisecondsSinceEpoch(i["deregistration_end"] * 1000);
     }
 
@@ -50,9 +50,9 @@ Future<List<Activity>> getActivities() async {
         isFull: i["is_full"],
         totalPlaces: i["total_places"],
         userHasSignedUpBackUp: i["user_signedup_backup"],
-        startSignup: startSignup,
-        endSignout: endSignout,
-        endSignup: endSignup,
+        startSignup: startSignUp,
+        endSignout: endSignOut,
+        endSignup: endSignUp,
         participants: i["participants"],
         participantsBackUpList: i["backupParticipants"]
 
