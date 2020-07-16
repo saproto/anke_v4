@@ -5,6 +5,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/helpers/api_call.dart';
+import 'package:flutter/services.dart';
 
 
 class PurchasePage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _PurchasePage extends State<PurchasePage> {
     //super.initState();
     _qrText = widget._qrText;
     getInfo(_qrText);
+  //  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   String getToken(String qrString) {

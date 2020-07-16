@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:ankev928/pages/calendar/activity_list_tile.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/services.dart';
 
 
 GetIt getIt = GetIt.instance;
@@ -27,11 +28,23 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
   _CalendarPageState();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = CalendarController();
     _selectedEvents = [];
-    //_futureActivity = getActivities();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown,DeviceOrientation.portraitUp]);    //_futureActivity = getActivities();
+  }
+
+  @override
+  void deactivate(){
+    print("hoi ik ben in deactivate");
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.deactivate();
+
   }
 
   Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map){

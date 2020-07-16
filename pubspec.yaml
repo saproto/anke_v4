@@ -79,8 +79,8 @@ flutter:
           weight: 600
         - asset: assets/fonts/Poppins-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Poppins-ThinItalic.ttf
-          weight: 100
+        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+          weight: 200
           style: italic
 
 

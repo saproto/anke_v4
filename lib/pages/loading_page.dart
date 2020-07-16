@@ -32,9 +32,11 @@ class _LoadingPageState extends State<LoadingPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkCredentials(_userInfoService);
+      _userInfoService.readFromSharedPrefs();
       getCurrentNewsArticles();
       getCurrentActivities();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
     });
   }
 
@@ -52,7 +54,7 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   void checkCredentials(UserInfoService _userInfoService) async {
-    if (_userInfoService.current.isLoggedIn) {
+   // if (_userInfoService.current.isLoggedIn) {
       bool hasCredentials = await checkForCredentials();
       if (hasCredentials) {
         Map<String, dynamic> userInfo =
@@ -61,9 +63,9 @@ class _LoadingPageState extends State<LoadingPage> {
       } else {
         _userInfoService.resetAndWriteToSharedPrefs();
       }
-    } else {
-      _userInfoService.resetAndWriteToSharedPrefs();
-    }
+//    } else {
+//      _userInfoService.resetAndWriteToSharedPrefs();
+//    }
 
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));

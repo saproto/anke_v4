@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 
 class OmnomcomPage extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class OmnomcomPage extends StatefulWidget {
 }
 
 class _OmnomcomPage extends State<OmnomcomPage> {
+  @override
+  void initState(){
+    super.initState();
+   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -6,6 +6,8 @@ import 'services/user_info_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/services.dart';
+
 
 GetIt getIt = GetIt.instance;
 
@@ -14,7 +16,7 @@ void main() {
   getIt.registerSingleton<NewsArticleListService>(NewsArticleListService());
   getIt.registerSingleton<ActivityListService>(ActivityListService());
 
-
+//  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
