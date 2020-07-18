@@ -1,5 +1,6 @@
 #Proto
 lib/config/oauth.dart
+android/key.properties
 
 # Miscellaneous
 *.class
