@@ -11,8 +11,6 @@ import 'package:ankev928/pages/photos/photo_albums_page.dart';
 import 'package:ankev928/pages/quote/add_quote_page.dart';
 import 'package:ankev928/pages/quote/quote_corner_page.dart';
 
-import 'routing/route_generator.dart';
-
 import 'services/activity_list_service.dart';
 import 'services/news_article_list_service.dart';
 import 'services/user_info_service.dart';
