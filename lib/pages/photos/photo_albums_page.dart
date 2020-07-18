@@ -1,4 +1,6 @@
 import 'package:ankev928/services/user_info_service.dart';
+import 'package:ankev928/shared/styling/show_information_widget.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/styling/block.dart';
@@ -24,16 +26,17 @@ class _PhotoAlbumsPage extends State<PhotoAlbumsPage> {
   @override
   void initState() {
     super.initState();
-  }
+      }
 
   @override
   Widget build(BuildContext context) {
     double _widthScreen = MediaQuery.of(context).size.width;
     double _widthColumn = getBlockWidth();
     int _amountColumns = _widthScreen ~/ _widthColumn;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto Photos'),
+          title: Text('S.A. Proto Photos', style: Style.headerPageTextStyle),
         ),
         drawer: DefaultDrawer(),
         body: StreamBuilder(
@@ -49,14 +52,17 @@ class _PhotoAlbumsPage extends State<PhotoAlbumsPage> {
                 future: photoAlbums,
                 builder: (BuildContext context, AsyncSnapshot snap) {
                   bool isUserLoggedIn = false;
-                  if(snapshot.hasData){
+                  if(snapshot.hasData) {
                     isUserLoggedIn = snapshot.data.isLoggedIn;
+
+                    return GridView.count(
+                      padding: new EdgeInsets.fromLTRB(0, 16.0, 0, 16.0),
+                      crossAxisCount: _amountColumns,
+                      children: _getBlocks(context, snap, isUserLoggedIn),
+                    );
+                  } else {
+                    return showInformationOnScreen("Loading albums");
                   }
-                  return GridView.count(
-                    padding: new EdgeInsets.fromLTRB(0, 16.0, 0, 16.0),
-                    crossAxisCount: _amountColumns,
-                    children: _getBlocks(context, snap, isUserLoggedIn),
-                  );
                 },
               );
             }));

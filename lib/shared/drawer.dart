@@ -109,16 +109,9 @@ class _DefaultDrawer extends State<DefaultDrawer> {
   }
 
   void _navigateTo(String route, BuildContext context) {
-    //Navigator.popUntil(context, ModalRoute.withName('/home'));
-   // Navigator.pop(context);
-//    Navigator.pop(context);
-//    Navigator.maybePop(context);
-//  Navigator.of(context).popAndPushNamed(route);
-//    Navigator.of(context).pushNamed(route);
-   // Navigator.popUntil(context, ModalRoute.withName('/home'));
-    Navigator.of(context).pushNamedAndRemoveUntil(route, ModalRoute.withName('/home'));
-
-    //Navigator.of(context).pushNamedAndRemoveUntil(route, ModalRoute.withName('/home'));
+   Navigator.pop(context);
+      Navigator.of(context).pushNamedAndRemoveUntil(route, ModalRoute.withName('/home'));
+    print("hoi");
   }
 
   Icon _getIconLoginLogout(AsyncSnapshot snap) {

@@ -1,4 +1,5 @@
 import 'package:ankev928/pages/homepage/widgets_homepage.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 import 'package:ankev928/shared/styling/title_style.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto'),
+          title: Text('S.A. Proto', style: Style.headerPageTextStyle),
         ),
         drawer: DefaultDrawer(),
         body: SingleChildScrollView(

@@ -18,17 +18,17 @@ class RouteGenerator {
 
     switch (settings.name) { 
       case '/':
-        return MaterialPageRoute(builder: (_) => LoadingPage());
+        return MaterialPageRoute(builder: (_) => new LoadingPage());
       case '/home':
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) =>new HomePage());
       case '/calendar':
-        return MaterialPageRoute(builder: (_) => CalendarPage());
+        return MaterialPageRoute(builder: (_) => new CalendarPage());
       case '/login':
         return MaterialPageRoute(builder: (_) => LoginHandler());
       case '/logout':
         return MaterialPageRoute(builder: (_) => LogoutHandler());
       case '/news':
-        return MaterialPageRoute(builder: (_) => NewsPage());
+        return MaterialPageRoute(builder: (_) => new  NewsPage());
       case '/omnomcom':
         return MaterialPageRoute(builder: (_) => OmnomcomPage());
       case '/qrscanner':
@@ -42,7 +42,7 @@ class RouteGenerator {
       case '/committees':
         return MaterialPageRoute(builder: (_) => CommitteesPage());
       default:
-        return _errorRoute("unkonw route");
+        return _errorRoute("unknown route");
     }
   }
 

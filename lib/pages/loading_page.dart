@@ -3,7 +3,6 @@ import 'package:ankev928/models/news_article.dart';
 import 'package:ankev928/pages/calendar/get_activities.dart';
 import 'package:ankev928/services/activity_list_service.dart';
 import 'package:ankev928/services/news_article_list_service.dart';
-import 'package:ankev928/shared/helpers/api_call.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get_it/get_it.dart';
@@ -29,14 +28,15 @@ class _LoadingPageState extends State<LoadingPage> {
       getIt.get<ActivityListService>();
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _userInfoService.readFromSharedPrefs();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Image(image: AssetImage("assets/img/protologo.png"), fit: BoxFit.cover,);
+      await _userInfoService.readFromSharedPrefs();
       getCurrentNewsArticles();
       getCurrentActivities();
       Navigator.of(context)
-          .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     });
   }
 
@@ -44,31 +44,19 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Column(
+      child:Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Image.asset("assets/img/protologo.png"),
+          Flexible( fit: FlexFit.tight, child:  Padding(
+              padding: EdgeInsets.all(16),
+              child: Image(image: AssetImage("assets/img/protologo.png"), fit: BoxFit.contain,)),
+          )
         ],
       ),
-    ));
-  }
-
-  void checkCredentials(UserInfoService _userInfoService) async {
-   // if (_userInfoService.current.isLoggedIn) {
-      bool hasCredentials = await checkForCredentials();
-      if (hasCredentials) {
-        Map<String, dynamic> userInfo =
-            await doApiGetRequestAuthenticate('user/info');
-        _userInfoService.updateFromJson(userInfo);
-      } else {
-        _userInfoService.resetAndWriteToSharedPrefs();
-      }
-//    } else {
-//      _userInfoService.resetAndWriteToSharedPrefs();
-//    }
-
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
+      ),
+     );
   }
 
   void getCurrentNewsArticles() async {
@@ -77,14 +65,12 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   void getCurrentActivities() async {
-    List<Activity> _currentActivities;
     if (_userInfoService.current.isLoggedIn) {
-      _currentActivities =
-          await getActivities('events/upcoming/for_user', false);
+      _activityListService.doAuthorizedActivityCall();
     } else {
-      _currentActivities = await getActivities('events/upcoming', true);
+      _activityListService.doUnAuthorizedActivityCall();
     }
 
-    _activityListService.update(_currentActivities);
+
   }
 }

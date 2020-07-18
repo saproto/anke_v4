@@ -1,4 +1,5 @@
 import 'package:ankev928/services/user_info_service.dart';
+import 'package:ankev928/shared/styling/show_information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -41,14 +42,15 @@ class CalendarMyActivitiesViewPage extends StatelessWidget {
                         return new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              new Padding(
-                                padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
-                                child: Text(
-                                  "You are not going to any activities.",
-                                  style: Style.headerTextStyle,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
+                              showInformationOnScreen("You are not going to any activities."),
+//                              new Padding(
+//                                padding: EdgeInsets.fromLTRB(15, 15, 15, 5),
+//                                child: Text(
+//                                  "You are not going to any activities.",
+//                                  style: Style.headerTextStyle,
+//                                  textAlign: TextAlign.center,
+//                                ),
+//                              ),
                             ]);
                       } else {
                         return Column(
@@ -76,14 +78,11 @@ class CalendarMyActivitiesViewPage extends StatelessWidget {
                     },
                   );
                 } else {
-                  return new Center(
-                    child: Text("Sorry you are not logged in, pleas log in to use this function"),
+                  return  showInformationOnScreen("Sorry you are not logged in, pleas log in to use this function"
                   );
                 }
               } else {
-                return new Center(
-                  child: Text("Loading activities"),
-                );
+                return   showInformationOnScreen("Loading activities");
               }
             },
           )
@@ -91,6 +90,8 @@ class CalendarMyActivitiesViewPage extends StatelessWidget {
     );
   }
 }
+
+
 
 int getLengthOfData(AsyncSnapshot snapshot) {
   if (snapshot.data != null) {

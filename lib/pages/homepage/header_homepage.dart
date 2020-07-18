@@ -75,7 +75,7 @@ Column welcomeMessage(AsyncSnapshot snap) {
         maxLines: 2);
   } else {
     line1 = new Text(
-      "Welcome to the app of S.A Proto",
+      "Welcome to the app of S.A. Proto",
       style: Style.headerWhiteTextStyle,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,

@@ -19,13 +19,25 @@ class _OmnomcomPage extends State<OmnomcomPage> {
   @override
   void initState(){
     super.initState();
-   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown,DeviceOrientation.portraitUp]);    //_futureActivity = getActivities();
+  }
+
+  @override
+  void deactivate(){
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.deactivate();
+
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto'),
+          title: Text('S.A. Proto Omnomcom', style: Style.headerPageTextStyle),
         ),
         drawer: DefaultDrawer(),
         body: FutureBuilder(

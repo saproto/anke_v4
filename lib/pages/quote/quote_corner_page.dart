@@ -1,5 +1,6 @@
 //import 'dart:html'
 
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
@@ -38,7 +39,7 @@ class _QuoteCornerPage extends State<QuoteCornerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('S.A. Proto Quotes '),
+        title: Text('S.A. Proto Quotes', style: Style.headerPageTextStyle),
       ),
       drawer: DefaultDrawer(),
       body: StreamBuilder(

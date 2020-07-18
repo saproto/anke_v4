@@ -1,3 +1,4 @@
+import 'package:ankev928/shared/styling/flushbar.dart';
 import 'package:ankev928/shared/styling/separator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,8 @@ class ActivityDetailPage extends StatelessWidget {
             style: Style.commonTextStyleGreyColor,
           );
         }
-      } else return null;
+      } else
+        return null;
     }
 
     Text _hasNoShowFeeTextField(Activity activity) {
@@ -78,14 +80,14 @@ class ActivityDetailPage extends StatelessWidget {
               signUpId: decodedSignUpRequest["participation_id"],
               userInfo: _userInfoService.current);
         }
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(decodedSignUpRequest["message"]),
-        ));
+        getFlushbar(context, decodedSignUpRequest["message"], 5,
+            Theme.of(context).primaryColor);
       } catch (Exception) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(
-              "Something went wrong during sign-up. Please restart the app and try again."),
-        ));
+        getFlushbar(
+            context,
+            "Something went wrong during sign-up. Please restart the app and try again.",
+            10,
+            Theme.of(context).errorColor);
       }
     }
 
@@ -101,14 +103,14 @@ class ActivityDetailPage extends StatelessWidget {
               isSignUp: false,
               userInfo: _userInfoService.current);
         }
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(decodedSignOutRequest["message"]),
-        ));
+        getFlushbar(context, decodedSignOutRequest["message"], 5,
+            Theme.of(context).primaryColor);
       } catch (Exception) {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(
-              "Something went wrong during sign-out. Please restart the app and try again."),
-        ));
+        getFlushbar(
+            context,
+            "Something went wrong during sign-out. Please restart the app and try again.",
+            10,
+            Theme.of(context).errorColor);
       }
     }
 
@@ -236,7 +238,9 @@ class ActivityDetailPage extends StatelessWidget {
     }
 
     Column _getParticipants(List<dynamic> participants, String title) {
-      if (_userInfoService.current.isLoggedIn && participants != null && participants.length != 0) {
+      if (_userInfoService.current.isLoggedIn &&
+          participants != null &&
+          participants.length != 0) {
         return new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

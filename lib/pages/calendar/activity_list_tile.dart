@@ -2,7 +2,6 @@ import 'package:ankev928/shared/styling/card.dart';
 import 'package:ankev928/shared/styling/card_autoHeight.dart';
 import 'package:ankev928/shared/styling/separator.dart';
 import 'package:ankev928/shared/styling/textstyle.dart';
-
 import 'package:ankev928/models/activity.dart';
 
 import 'package:flutter/cupertino.dart';

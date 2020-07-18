@@ -1,9 +1,9 @@
 
 import 'package:ankev928/pages/news/article_list_tile.dart';
 import 'package:ankev928/services/news_article_list_service.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
-
 import 'package:get_it/get_it.dart';
 
 
@@ -17,7 +17,7 @@ class NewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto News'),
+          title: Text('S.A. Proto News', style: Style.headerPageTextStyle),
         ),
         drawer: DefaultDrawer(),
         body: StreamBuilder(

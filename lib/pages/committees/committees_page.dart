@@ -1,6 +1,7 @@
 import 'package:ankev928/models/comittee.dart';
 import 'package:ankev928/pages/committees/committee_list_tile.dart';
 import 'package:ankev928/services/user_info_service.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/drawer.dart';
 
@@ -16,7 +17,7 @@ class CommitteesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto Committees'),
+          title: Text('S.A. Proto Committees', style: Style.headerPageTextStyle),
         ),
         drawer: DefaultDrawer(),
         body: StreamBuilder(

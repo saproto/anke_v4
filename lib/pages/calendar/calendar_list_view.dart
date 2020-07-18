@@ -20,7 +20,6 @@ class CalendarListViewPage extends StatelessWidget{
           return ListView.builder(
               itemCount: getLengthOfData(snapshot),
               itemBuilder: (BuildContext context, int index){
-                print("hallo");
                 return new ActivityListTile(snapshot.data[index]);
               }
           );

@@ -28,7 +28,7 @@ class UserInfoService {
     ));
   }
 
-  void writeToSharedPrefs() async {
+  Future writeToSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("isLoggedIn", current.isLoggedIn);
     prefs.setString("displayName", current.displayName);

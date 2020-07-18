@@ -36,7 +36,6 @@ class _CalendarPageState extends State<CalendarMonthViewPage> {
 
   @override
   void deactivate(){
-    print("hoi ik ben in deactivate");
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,

@@ -1,11 +1,9 @@
-import 'dart:convert';
 
+import 'package:ankev928/shared/styling/flushbar.dart';
 import 'package:ankev928/shared/styling/textstyle.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/shared/helpers/api_call.dart';
-import 'package:flutter/services.dart';
 
 
 class PurchasePage extends StatefulWidget {
@@ -73,19 +71,11 @@ class _PurchasePage extends State<PurchasePage> {
       if (qrPayment["status"] == "ok") {
         Navigator.pop(context);
         Navigator.pop(context);
-
-        Flushbar(
-          message: "Your payment was successful!",
-          backgroundColor: Theme.of(context).primaryColor,
-          duration: Duration(seconds: 10),
-        )..show(context);
+        getFlushbar(context, 'our payment was successful!', 10, Theme.of(context).primaryColor);
       } else {
         Navigator.pushReplacementNamed(context, '/qrscanner' );
-        Flushbar(
-          message: "Something went wrong, please scan QR code again!",
-          backgroundColor: Theme.of(context).errorColor,
-          duration: Duration(seconds: 10),
-        )..show(context);
+        getFlushbar(context, "Something went wrong, please scan QR code again!", 10, Theme.of(context).errorColor);
+
       }
     }
   }

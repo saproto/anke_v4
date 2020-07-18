@@ -1,4 +1,5 @@
 import 'package:ankev928/pages/omnomcom/purchase_page.dart';
+import 'package:ankev928/shared/styling/flushbar.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,10 +57,7 @@ class _QrScannerPage extends State<QrScannerPage> {
                 pageBuilder: (_, __, ___) => new PurchasePage(qrText)));
           } else {
             this.controller.resumeCamera();
-            Flushbar(
-                message:"QR code was not recognized as an omnomcom QR code, please try again",
-                duration: Duration(seconds: 10),
-            )..show(context);
+            getFlushbar(context, "QR code was not recognized as an omnomcom QR code, please try again", 10, Theme.of(context).errorColor);
           }
         }
       });

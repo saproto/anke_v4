@@ -1,9 +1,12 @@
 import 'package:ankev928/models/photo_album.dart';
 import 'package:ankev928/pages/photos/photo_scroll_page.dart';
+import 'package:ankev928/shared/styling/flushbar.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:ankev928/pages/photos/get_photos_in_album.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class PhotoPage extends StatefulWidget {
@@ -45,7 +48,7 @@ class _PhotoPage extends State<PhotoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_photoAlbum.name),
+          title: Text(_photoAlbum.name, style: Style.headerPageTextStyle),
         ),
         body: FutureBuilder(
             future: getPhotoAlbumList(),
@@ -63,6 +66,7 @@ class _PhotoPage extends State<PhotoPage> {
                   staggeredTileBuilder: (index) => new StaggeredTile.fit(2),
                 );
               } else {
+                getFlushbar(context, "It is possible that the app crashes while loading the pictures! It is than not possible to see this album in the app", 10, Theme.of(context).errorColor);
                 return Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

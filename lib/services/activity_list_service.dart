@@ -1,5 +1,6 @@
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/models/user_info.dart';
+import 'package:ankev928/pages/calendar/get_activities.dart';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -24,6 +25,18 @@ class ActivityListService {
         }
       }
     return null;
+  }
+
+  void doUnAuthorizedActivityCall() async{
+    List<Activity> _currentActivities;
+    _currentActivities = await getActivities('events/upcoming', true);
+    update(_currentActivities);
+  }
+
+  void doAuthorizedActivityCall() async {
+    List<Activity> _currentActivities;
+    _currentActivities = await getActivities('events/upcoming/for_user', false);
+    update(_currentActivities);
   }
 
   void toggleParticipation(

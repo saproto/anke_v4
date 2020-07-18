@@ -1,5 +1,8 @@
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/services/activity_list_service.dart';
+import 'package:ankev928/shared/styling/show_information_widget.dart';
+import 'package:ankev928/shared/styling/textstyle.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ankev928/shared/helpers/api_call.dart';
@@ -35,28 +38,29 @@ class _LoginHandlerState extends State<LoginHandler> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('S.A. Proto Login'),
+          title: Text('S.A. Proto Login', style: Style.headerPageTextStyle),
         ),
-        body: Center(
-          child: Column(
+        body:
+          Column(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'Logging you into Proto...',
-                style: TextStyle(fontSize: 35),
+              showInformationOnScreen('Logging you into Proto...'),
+              Flexible( fit: FlexFit.tight, child:  Padding(
+               padding: EdgeInsets.all(16),
+                child: Image(image: AssetImage("assets/img/protologo.png"), fit: BoxFit.contain,)),
               )
             ],
           ),
-        ));
+        );
   }
 
   void login(UserInfoService _userInfoService) async {
     Map<String, dynamic> userInfo = await doApiGetRequestAuthenticate('user/info');
     _userInfoService.updateFromJson(userInfo);
-    List<Activity> _currentActivities =
-    await getActivities('events/upcoming/for_user', false);
-    _activityListService.update(_currentActivities);
+    _activityListService.doAuthorizedActivityCall();
 
     Navigator.of(context)
-        .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home')); }
+        .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false); }
 }
