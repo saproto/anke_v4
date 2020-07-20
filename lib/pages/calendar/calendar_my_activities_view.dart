@@ -78,7 +78,7 @@ class CalendarMyActivitiesViewPage extends StatelessWidget {
                     },
                   );
                 } else {
-                  return  showInformationOnScreen("Sorry you are not logged in, pleas log in to use this function"
+                  return  showInformationOnScreen("Sorry you are not logged in, please log in to use this function"
                   );
                 }
               } else {

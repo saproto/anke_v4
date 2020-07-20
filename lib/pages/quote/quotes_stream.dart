@@ -9,13 +9,13 @@ class QuotesStream {
   bool _isLoading;
   List<Quote> _data;
   StreamController<List<Quote>> _controller;
-  int _pageNumber;
+  int pageNumber;
 
   QuotesStream() {
     _data = List<Quote>();
     _controller = StreamController<List<Quote>>.broadcast();
     _isLoading = false;
-    _pageNumber = 1;
+    pageNumber = 0;
     stream = _controller.stream.map((List<Quote> quotesData) {
       return quotesData;
     });
@@ -30,7 +30,7 @@ class QuotesStream {
   Future<void> loadMore({bool clearCachedData = false}){
     if(clearCachedData){
       _data = List<Quote> ();
-      _pageNumber = 1;
+      pageNumber = 1;
       hasMore = true;
     }
 
@@ -39,10 +39,10 @@ class QuotesStream {
     }
 
     _isLoading = true;
-    return getQuotes(_pageNumber).then((quoteData){
+    return getQuotes(pageNumber).then((quoteData){
       _isLoading = false;
       _data.addAll(quoteData);
-      _pageNumber ++;
+      pageNumber ++;
       hasMore = (_data.length < getTotalAmountQuotes());
       _controller.add(_data);
     });

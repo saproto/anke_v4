@@ -77,7 +77,9 @@ class _QuoteCornerPage extends State<QuoteCornerPage> {
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 8, 15),
-                    child: RawMaterialButton(
+                    child: Opacity(
+                      opacity: quotes.pageNumber > 2 ? 1.0 : 0,
+                      child: RawMaterialButton(
                       elevation: 2.0,
                       fillColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.all(10),
@@ -85,11 +87,11 @@ class _QuoteCornerPage extends State<QuoteCornerPage> {
                       color: Theme.of(context).backgroundColor,),
                       shape: CircleBorder(),
                       onPressed: ((){
-                        scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                        quotes.pageNumber > 2 ? scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.easeInOut) : null;
                       }),
                   ),),
                 )
-
+                ),
                 ],
               ));
           } else {

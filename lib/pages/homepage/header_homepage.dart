@@ -15,7 +15,10 @@ class HeaderHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Padding(
       padding: new EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: new Stack(
+      child: new GestureDetector(
+        onTap: _userInfoService.current.isLoggedIn ? null :() => Navigator.of(context)
+            .pushNamed('/login'),
+        child: new Stack(
         children: <Widget>[
           cardLayout(true, headerCardContentBackGroundImage, 154.0),
           StreamBuilder(
@@ -25,6 +28,7 @@ class HeaderHomePage extends StatelessWidget {
             },
           ),
         ],
+      ),
       ),
     );
   }

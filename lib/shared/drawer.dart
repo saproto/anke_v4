@@ -68,7 +68,7 @@ class _DefaultDrawer extends State<DefaultDrawer> {
                 ),
                 ListTile(
                   leading: _getIconLoginLogout(snap),
-                  title: Text(_checkLoginLogout(snap)),
+                  title: Text(_getTitleLoginLogout(snap)),
                   onTap: () {
                     _navigateTo('/' + _checkLoginLogout(snap), context);
                   },
@@ -111,7 +111,6 @@ class _DefaultDrawer extends State<DefaultDrawer> {
   void _navigateTo(String route, BuildContext context) {
    Navigator.pop(context);
       Navigator.of(context).pushNamedAndRemoveUntil(route, ModalRoute.withName('/home'));
-    print("hoi");
   }
 
   Icon _getIconLoginLogout(AsyncSnapshot snap) {
@@ -119,6 +118,14 @@ class _DefaultDrawer extends State<DefaultDrawer> {
       return Icon(Icons.lock);
     } else
       return Icon(Icons.lock_open);
+  }
+
+  String _getTitleLoginLogout(AsyncSnapshot snap) {
+    if (snap.data != null && snap.data.isLoggedIn) {
+      return 'Logout';
+    } else {
+      return 'Login';
+    }
   }
 
   String _checkLoginLogout(AsyncSnapshot snap) {
