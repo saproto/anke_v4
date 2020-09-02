@@ -159,9 +159,7 @@ class AddQuotePageState extends State<AddQuotePage> {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       submitQuote(_quote, context);
                     });
-
-                    print(_quote);
-                  },
+                    },
                 ),
               ],
             ),

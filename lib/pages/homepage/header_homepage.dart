@@ -66,7 +66,7 @@ Column welcomeMessage(AsyncSnapshot snap) {
   Text line2;
   if (snap.hasData && snap.data.isLoggedIn) {
     String name = snap.data.displayName;
-    String welcomeMessage = snap.data.welcomeMessage;
+    String welcomeMessage = snap.data.welcomeMessage == null ? "Nice to see you back!" : snap.data.welcomeMessage;
     line1 = new Text(
       "Hi $name,",
       style: Style.headerWhiteTextStyle,

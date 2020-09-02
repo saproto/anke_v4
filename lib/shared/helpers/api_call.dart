@@ -20,7 +20,6 @@ Future<dynamic> doApiGetRequestAuthenticate(String urlExtension,
     Map<String, String> headers = {'Accept': 'application/json'};
    resp = await _getHelper()
         .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
-//  print(resp);
   } else {
     resp = await http.get(oauthCredentials['baseurl'] + urlExtension);
   }

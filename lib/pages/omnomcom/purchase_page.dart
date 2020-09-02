@@ -48,7 +48,6 @@ class _PurchasePage extends State<PurchasePage> {
   }
 
   Text getQRInfo() {
-    print(qrInfo);
     if (qrInfo != null) {
       return Text(
         qrInfo["description"],

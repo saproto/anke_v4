@@ -2,6 +2,7 @@
 lib/config/oauth.dart
 android/key.properties
 key.jks
+.flutter-plugins-dependencies
 
 # Miscellaneous
 *.class

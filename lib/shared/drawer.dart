@@ -102,7 +102,9 @@ class _DefaultDrawer extends State<DefaultDrawer> {
 
   Text getWelcomeMessage(AsyncSnapshot snap){
     if(snap.hasData && snap.data.isLoggedIn){
-      return new Text(snap.data.welcomeMessage);
+      if(snap.data.welcomeMessage != null) {
+        return new Text(snap.data.welcomeMessage);
+      } else return new Text("Nice to see you back!");
     } else {
       return new Text('');
     }

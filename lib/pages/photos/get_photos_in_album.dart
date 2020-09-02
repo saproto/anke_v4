@@ -3,7 +3,6 @@ import 'package:ankev928/shared/helpers/api_call.dart';
 
 Future<PhotoAlbumWithPhotos> getPhotosInAlbum(int id, String url,
     {noAuthPresentOk = false}) async {
-  print("in get photos in album");
   Map<String, dynamic> photoAlbumPhotos =
       await doApiGetRequestAuthenticate(url + id.toString(), noAuthPresentOk: noAuthPresentOk);
   List<Photo> photos = [];

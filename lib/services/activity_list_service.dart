@@ -1,8 +1,13 @@
 import 'package:ankev928/models/activity.dart';
 import 'package:ankev928/models/user_info.dart';
 import 'package:ankev928/pages/calendar/get_activities.dart';
+import 'package:ankev928/services/user_info_service.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:rxdart/rxdart.dart';
+GetIt getIt = GetIt.instance;
+
+final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
 class ActivityListService {
   BehaviorSubject _activityList = BehaviorSubject.seeded(new List<Activity>());
@@ -27,16 +32,23 @@ class ActivityListService {
     return null;
   }
 
-  void doUnAuthorizedActivityCall() async{
+  Future<void> refresh() {
+    if (_userInfoService.current.isLoggedIn) {
+      print("in refresh");
+      return doAuthorizedActivityCall();
+    } else
+      return doUnAuthorizedActivityCall();
+  }
+  Future <void> doUnAuthorizedActivityCall() async{
     List<Activity> _currentActivities;
     _currentActivities = await getActivities('events/upcoming', true);
-    update(_currentActivities);
+    return update(_currentActivities);
   }
 
-  void doAuthorizedActivityCall() async {
+  Future <void>  doAuthorizedActivityCall() async {
     List<Activity> _currentActivities;
     _currentActivities = await getActivities('events/upcoming/for_user', false);
-    update(_currentActivities);
+   return update(_currentActivities);
   }
 
   void toggleParticipation(
