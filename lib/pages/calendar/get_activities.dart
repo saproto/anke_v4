@@ -5,6 +5,9 @@ Future<List<Activity>> getActivities(String url, bool authPresent) async {
   List<dynamic> calenderInfo =
   await doApiGetRequestAuthenticate(url, noAuthPresentOk: authPresent);
   List<Activity> activities = [];
+  if(calenderInfo == null){
+    return activities;
+  }
   for (var i in calenderInfo) {  
     DateTime startSignUp; 
     DateTime endSignUp; 

@@ -5,7 +5,6 @@ import 'package:ankev928/services/user_info_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 
-
 GetIt getIt = GetIt.instance;
 
 class HeaderHomePage extends StatelessWidget {
@@ -13,23 +12,23 @@ class HeaderHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
-      padding: new EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: new GestureDetector(
-        onTap: _userInfoService.current.isLoggedIn ? null :() => Navigator.of(context)
-            .pushNamed('/login'),
-        child: new Stack(
-        children: <Widget>[
-          cardLayout(true, headerCardContentBackGroundImage, 154.0),
-          StreamBuilder(
-            stream: _userInfoService.stream$,
-            builder: (BuildContext context, AsyncSnapshot snap) {
-              return headerCardContent(snap);
-            },
-          ),
-        ],
-      ),
-      ),
+    return StreamBuilder(
+      stream: _userInfoService.stream$,
+      builder: (BuildContext context, AsyncSnapshot snap) {
+        return new Padding(
+            padding: new EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: new GestureDetector(
+              onTap: _userInfoService.current.isLoggedIn
+                  ? null
+                  : () => Navigator.of(context).pushNamed('/login'),
+              child: new Stack(
+                children: <Widget>[
+                  cardLayout(true, headerCardContentBackGroundImage, 154.0),
+                  headerCardContent(snap),
+                ],
+              ),
+            ));
+      },
     );
   }
 }
@@ -66,7 +65,9 @@ Column welcomeMessage(AsyncSnapshot snap) {
   Text line2;
   if (snap.hasData && snap.data.isLoggedIn) {
     String name = snap.data.displayName;
-    String welcomeMessage = snap.data.welcomeMessage == null ? "Nice to see you back!" : snap.data.welcomeMessage;
+    String welcomeMessage = snap.data.welcomeMessage == null
+        ? "Nice to see you back!"
+        : snap.data.welcomeMessage;
     line1 = new Text(
       "Hi $name,",
       style: Style.headerWhiteTextStyle,

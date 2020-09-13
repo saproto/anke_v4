@@ -117,7 +117,7 @@ List<Activity> organizingActivities(AsyncSnapshot snapshot) {
   List<Activity> orgActivities = [];
   if (snapshot.data != null) {
     for (var activity in snapshot.data) {
-      if (activity.isOrganizing) {
+      if (activity.isOrganizing != null && activity.isOrganizing) {
         orgActivities.add(activity);
       }
     }

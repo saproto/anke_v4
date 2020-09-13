@@ -18,6 +18,7 @@ GetIt getIt = GetIt.instance;
 class HomePage extends StatelessWidget {
   final ActivityListService _activityListService =
       getIt.get<ActivityListService>();
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,38 +29,42 @@ class HomePage extends StatelessWidget {
         drawer: DefaultDrawer(),
         body: RefreshIndicator(
             onRefresh: _activityListService.refresh,
-            child: new SingleChildScrollView(
-                child: new Container(
-                    child: new Stack(
-              children: <Widget>[
-                new Padding(
-                    padding: new EdgeInsets.only(top: 10),
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        HeaderHomePage(),
-                        getTitle("Upcoming activities"),
-                        new Container(
-                          height: 180.0,
-                          width: MediaQuery.of(context).size.width,
-                          child: CalendarWidgets(),
-                        ),
-                        getTitle("Widgets"),
-                        new Container(
-                            height: 180.0,
-                            width: MediaQuery.of(context).size.width,
-                            child: WidgetsHomePage()),
-                        getTitle("News"),
-                        new Container(
-                            height: 180.0,
-                            width: MediaQuery.of(context).size.width,
-                            child: NewsWidget()),
-                      ],
-                    ))
-              ],
-            )))));
+            child: StreamBuilder(
+                stream: _userInfoService.stream$,
+                builder: (BuildContext context, AsyncSnapshot snap) {
+                  return new SingleChildScrollView(
+                      child: new Container(
+                          child: new Stack(
+                    children: <Widget>[
+                      new Padding(
+                          padding: new EdgeInsets.only(top: 10),
+                          child: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              HeaderHomePage(),
+                              getTitle("Upcoming activities"),
+                              new Container(
+                                height: 180.0,
+                                width: MediaQuery.of(context).size.width,
+                                child: CalendarWidgets(),
+                              ),
+                              getTitle("Widgets"),
+                              new Container(
+                                  height: 180.0,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: WidgetsHomePage()),
+                              getTitle("News"),
+                              new Container(
+                                  height: 180.0,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: NewsWidget()),
+                            ],
+                          ))
+                    ],
+                  )));
+                })));
   }
 }
 

@@ -1,10 +1,17 @@
 import 'dart:convert';
+import 'package:ankev928/services/activity_list_service.dart';
+import 'package:ankev928/services/user_info_service.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:ankev928/config/oauth.dart';
 import 'package:ankev928/shared/helpers/proto_api.dart';
 
 import 'package:oauth2_client/oauth2_helper.dart';
 import 'package:oauth2_client/oauth2_response.dart';
+
+GetIt getIt = GetIt.instance;
+
 
 Future<bool> checkForCredentials() async {
   OAuth2Helper oAuthHelper = _getHelper();
@@ -15,18 +22,25 @@ Future<bool> checkForCredentials() async {
 
 Future<dynamic> doApiGetRequestAuthenticate(String urlExtension,
     {bool noAuthPresentOk = false}) async {
-  http.Response resp;
-  if(!noAuthPresentOk) {
-    Map<String, String> headers = {'Accept': 'application/json'};
-   resp = await _getHelper()
-        .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
-  } else {
-    resp = await http.get(oauthCredentials['baseurl'] + urlExtension);
-  }
+  try{
+    http.Response resp;
+    if(!noAuthPresentOk) {
+      Map<String, String> headers = {'Accept': 'application/json'};
+      resp = await _getHelper()
+          .get(oauthCredentials['baseurl'] + urlExtension, headers: headers);
+    } else {
+      resp = await http.get(oauthCredentials['baseurl'] + urlExtension);
+    }
 
 
     dynamic info = jsonDecode(resp.body);
     return info;
+  }catch (e ) {
+    if(e.error == "invalid_request"){
+      logOutUser();
+    }
+  }
+
 
 
 }
@@ -67,4 +81,14 @@ OAuth2Helper _getHelper() {
       clientId: oauthCredentials['id'],
       clientSecret: oauthCredentials['secret'],
       scopes: ['*']);
+}
+
+void logOutUser() async{
+  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
+  final ActivityListService _activityListService =
+  getIt.get<ActivityListService>();
+
+  revokeTokens();
+  await _userInfoService.resetAndWriteToSharedPrefs();
+  _activityListService.doUnAuthorizedActivityCall();
 }

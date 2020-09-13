@@ -45,13 +45,16 @@ class ActivityListTile extends StatelessWidget {
               child: _activityValue(
                   value: _getCorrectFormatDate(
                       activity.startDate, activity.endDate),
-                  image: "assets/img/clock.png")),
+                  image: "assets/img/clock.png",  horizontal: horizontal)),
           new Container(
             height: 2.0,
           ),
+//          new Text(activity.location, style: Style.regularTextStyle,
+//            overflow: TextOverflow.ellipsis,
+//            maxLines: horizontal ? 1 : 2,)
           new Container(
             child: _activityValue(
-                value: activity.location, image: "assets/img/location.png"),
+                value: activity.location, image: "assets/img/location.png", horizontal: horizontal),
           )
         ],
       ),
@@ -80,14 +83,18 @@ class ActivityListTile extends StatelessWidget {
   }
 }
 
-Widget _activityValue({String value, String image}) {
+Widget _activityValue({String value, String image, bool horizontal}) {
   return new Container(
     child: new Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         new Image.asset(image, height: 12.0),
         new Container(width: 8.0),
-        new Text(value, style: Style.regularTextStyle),
+        Expanded(
+          child: new Text(value, style: Style.regularTextStyle,
+          overflow: TextOverflow.ellipsis,
+          maxLines: horizontal ? 1 : 2,),)
       ],
     ),
   );

@@ -21,14 +21,12 @@ class LogoutHandler extends StatefulWidget {
 }
 
 class _LogoutHandler extends State<LogoutHandler> {
-  final UserInfoService _userInfoService = getIt.get<UserInfoService>();
-  final ActivityListService _activityListService =
-  getIt.get<ActivityListService>();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => logout(_userInfoService));
+        .addPostFrameCallback((_) => logout());
   }
 
   @override
@@ -54,10 +52,8 @@ class _LogoutHandler extends State<LogoutHandler> {
         );
   }
 
-  void logout(UserInfoService _userInfoService) async {
-    revokeTokens();
-    await _userInfoService.resetAndWriteToSharedPrefs();
-    _activityListService.doUnAuthorizedActivityCall();
+  void logout() async {
+    logOutUser();
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
   }
